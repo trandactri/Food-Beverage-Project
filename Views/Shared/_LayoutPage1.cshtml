@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <meta charset="utf-8" />
+    <!-- Favicons -->
+    <link href="~/Content/images/favicon.png" rel="icon">
+    <link href="~/Content/images/apple-touch-icon.png" rel="apple-touch-icon">
+    <title>@ViewBag.Title</title>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css">
+    <!-- owl css -->
+    <link rel="stylesheet" href="~/Content/css/owl.carousel.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="~/Content/css/page.css">
+    <!-- responsive-->
+    <link rel="stylesheet" href="~/Content/css/responsive.css">
+    <!-- awesome fontfamily -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- CSS Vendor -->
+    <link href="~/Content/css/animate.css/animate.min.css" rel="stylesheet">
+    <link href="~/Content/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/css/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Content/css/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Content/css/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/Content/css/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i" rel="stylesheet">
+    <!-- Template Main CSS File -->
+    <link href="~/Content/css/why/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- end loader -->
+
+        <div class="sidebar">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+
+                <div id="dismiss">
+                    <i class="fa fa-times"></i>
+                </div>
+                <ul class="list-unstyled components">
+
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" style="border-top: 2px solid black;">
+                        <a href="@Url.Action("Index", "Home")">Home</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("About", "Home")">About</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Product", "Home")">Product</a>
+                    </li>
+                    @if (Session["Role"] != null)
+                    {
+                        if (Session["Role"].ToString() == "user")
+                        {
+                            <li>
+                                <a href="@Url.Action("Orders", "User")">My Orders</a>
+                            </li>
+                        }
+                    }
+                        <li>
+                            <a href="@Url.Action("Contact", "Home")">Contact Us</a>
+                        </li>
+                        <li>
+                            <a @if (Session["Role"] == null) { <text> onclick="return confirm('You must login to do this action. Will you?');" </text> } href="@Url.Action("Index", "Feedback")">Feedback</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Register", "Supplier")">Become Our Supplier</a>
+                        </li>
+                        @if (Session["Role"] != null)
+                        {
+                            <li>
+                                <a href="@Url.Action("Logout", "Home")" class="btn btn-warning">Logout</a>
+                            </li>
+                        }
+                    </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="content">
+        <!-- header -->
+        <header>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="full">
+                            <a class="logo" href="@Url.Action("Index", "Home")"><img style="width: 50px; height: 50px;" src="~/Content/images/logo_bar.png" alt="#" /></a>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        @if (TempData["success"] != null)
+                        {
+                            <span class="badge badge-success" style="font-size: 15px; margin-top: 20px;">@TempData["success"]</span>
+                        }
+                    </div>
+                    <div class="col-md-9">
+                        <div class="full">
+                            <div class="right_header_info">
+                                <ul>
+                                    <li class="dinone">Contact Us : <img style="margin-right: 15px;margin-left: 15px;" src="~/Content/images/phone_icon.png" alt="#"><a href="#">0909-089-999</a></li>
+                                    <li class="dinone"><img style="margin-right: 15px;" src="~/Content/images/mail_icon.png" alt="#"><a href="#">demo@gmail.com</a></li>
+                                    <li class="dinone"><img style="margin-right: 15px;height: 21px;position: relative;top: -2px;" src="~/Content/images/location_icon.png" alt="#"><a href="#">FPT University at Cantho Campus</a></li>
+                                    @if (Session["Fullname"] == null)
+                                    {
+                                        <li class="button_user"><a class="button active" href="@Url.Action("Login", "Home")">Login</a><a class="button" href="@Url.Action("Register", "Home")">Register</a></li>
+                                    }
+                                    @{ if (Session["Role"] != null)
+                                        {
+                                            <li class="button_user">
+                                                @if (Session["Role"].ToString() == "user")
+                                                {<a href="@Url.Action("Index", "User")">Hello, @Session["Fullname"].ToString()</a>}
+
+                                                @if (Session["Role"].ToString() == "supplier")
+                                                {<a href="@Url.Action("SupplierProfile", "Supplier")">Hello, @Session["Fullname"].ToString()</a>}
+
+                                                @if (Session["Role"].ToString() == "admin")
+                                                {<a href="@Url.Action("AdminProfile", "Admin")">Hello, @Session["Fullname"].ToString()</a>}
+
+                                            </li>
+                                            if (Session["Role"].ToString() == "user")
+                                            {
+                                                <li>
+                                                    @Html.Action("CartPatial", "Cart")
+                                                </li>
+                                            }
+                                        } }
+                                    <li>
+                                        <button type="button" id="sidebarCollapse">
+                                            <img src="~/Content/images/menu_icon.png" alt="#">
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- end header -->
+    </div>
+    <section id="hero">
+        <div class="hero-container">
+            <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+                <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+                <div class="carousel-inner" role="listbox">
+
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active" style="background: url(Content/images/slide/slide-1.jpg);">
+                        <div class="carousel-container">
+                            <div class="carousel-content">
+                                <h2 class="animate__animated animate__fadeInDown"><span>Rukki</span> Store</h2>
+                                <p class="animate__animated animate__fadeInUp">Hello, we are Rukki Store, we are very pleased to serve you, here you can search and order food that is not only delicious but also very safe for you.</p>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="carousel-item" style="background: url(Content/images/slide/slide-2.jpg);">
+                        <div class="carousel-container">
+                            <div class="carousel-content">
+                                <h2 class="animate__animated animate__fadeInDown">History Begin</h2>
+                                <p class="animate__animated animate__fadeInUp">Taking this startup idea at a time when the Covid-19 pandemic situation is stressful, we want to give our customers a comfortable, unrestricted feeling when they can have a delicious meal, the shipper also more job opportunities, and a delivery method that follows the "5 Zeros" rule.</p>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="carousel-item" style="background: url(Content/images/slide/slide-3.jpg);">
+                        <div class="carousel-background"><img src="~/Content/images/slide/slide-3.jpg" alt=""></div>
+                        <div class="carousel-container">
+                            <div class="carousel-content">
+                                <h2 class="animate__animated animate__fadeInDown">Mode of Operation</h2>
+                                <p class="animate__animated animate__fadeInUp">We operate under the rule of being a third party, we will take your order and will immediately connect with the partner, then we will quickly connect you with the shipper, the shipper will do it pick-up and delivery process for you, you can choose the payment method.</p>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+                </a>
+
+                <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+                </a>
+
+            </div>
+        </div>
+    </section><!-- End Hero -->
+    <!-- start slider section -->
+    <div class="slider_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="full">
+                        <div id="main_slider" class="carousel vert slide" data-ride="carousel" data-interval="5000">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="slider_cont">
+                                                <h3>Discover Foods<br>That deliver near You</h3>
+                                                <p>Worry about nothing to eat? We will help you!</p>
+                                                <a class="main_bt_border" href="#">Order Now</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="slider_image full text_align_center">
+                                                <img class="img-responsive" src="~/Content/images/pizza_slide.png" alt="#" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="slider_cont">
+                                                <h3>Your favourite<br>Our service</h3>
+                                                <p>Enjoy your lunch full-time with no worry of can't going out the street</p>
+                                                <a class="main_bt_border" href="#">Order Now</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="slider_image full text_align_center">
+                                                <img class="img-responsive" src="~/Content/images/banhmi_slide.png" alt="#" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#main_slider" role="button" data-slide="prev">
+                                <i class="fa fa-angle-up"></i>
+                            </a>
+                            <a class="carousel-control-next" href="#main_slider" role="button" data-slide="next">
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end slider section -->
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <div class="col-lg-5 align-items-stretch video-box" style='background-image: url("Content/images/about.png");'>
+                    <a href="https://www.youtube.com/watch?v=U3ASj1L6_sY" class="venobox play-btn mb-4" data-vbtype="video" data-autoplay="true"></a>
+                </div>
+
+                <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch">
+
+                    <div class="content">
+                        <h3>We are always listen and act <strong>to help you have a good day</strong></h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
+                        </p>
+                        <p class="fst-italic">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                            magna aliqua.
+                        </p>
+                        <ul>
+                            <li><i class="bx bx-check-double"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                            <li><i class="bx bx-check-double"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                            <li><i class="bx bx-check-double"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+                        </ul>
+                        <p>
+                            Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                            culpa qui officia deserunt mollit anim id est laborum
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End About Section -->
+    <!-- ======= IT Section ======= -->
+    <section id="chefs" class="chefs">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>About <span>Us</span></h2>
+                <p>We are currently 3rd year students - majoring in software engineering at FPT University - Can Tho Campus, with the spirit and enthusiasm for learning, we want to see ourselves becoming more and more mature.</p>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="member">
+                        <div class="pic"><img src="~/Content/images/us/it-0.jpg" class="img-fluid" alt=""></div>
+                        <div class="member-info">
+                            <h4>Tran Dac Tri</h4>
+                            <span>Project Leader</span>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="member">
+                        <div class="pic"><img src="~/Content/images/us/it-1.jpg" class="img-fluid" alt=""></div>
+                        <div class="member-info">
+                            <h4>Huynh Bao Long</h4>
+                            <span>Front-End Developer</span>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="member">
+                        <div class="pic"><img src="~/Content/images/us/it-2.jpg" class="img-fluid" alt=""></div>
+                        <div class="member-info">
+                            <h4>Le Dao Thien Duc</h4>
+                            <span>Back-end Developer</span>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="member">
+                        <div class="pic"><img src="~/Content/images/us/it-4.jpg" class="img-fluid" alt=""></div>
+                        <div class="member-info">
+                            <h4>Doan Hieu Nhan</h4>
+                            <span>Database Administrator</span>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="member">
+                        <div class="pic"><img src="~/Content/images/us/it-5.jpg" class="img-fluid" alt=""></div>
+                        <div class="member-info">
+                            <h4>Ton Tu Trinh</h4>
+                            <span>Quality Control</span>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="member">
+                        <div class="pic"><img src="~/Content/images/us/it-6.jpg" class="img-fluid" alt=""></div>
+                        <div class="member-info">
+                            <h4>Cao Van Kha</h4>
+                            <span>Developer</span>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <div>
+        @RenderBody()
+    </div>
+    <footer class="footer text-muted">
+        <div class="footer" style="padding-top: 0px; padding-bottom: 1px; margin-top: 100px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="footer_logo">
+                            <a href="#"><img style="width: 400px; height: 400px;" src="~/Content/images/logop_bar.png" alt="Alternate Text" /></a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <ul class="lik">
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"> <a href="@Url.Action("Index", "Home")">Home</a></li>
+                            <li> <a href="@Url.Action("About", "Home")">About</a></li>
+                            <li> <a href="@Url.Action("Product", "Home")">Product</a></li>
+                            @{
+                                if (Session["Role"] != null)
+                                {
+                                    if (Session["Role"].ToString() == "user")
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Orders","User")">My Orders</a>
+                                        </li>
+                                    }
+                                }
+                            }
+                            <li> <a href="@Url.Action("Contact", "Home")">Contact Us</a></li>
+                            <li> <a @if (Session["Role"] == null) { <text> onclick="return confirm('You must login to do this action. Will you?');" </text> } href="@Url.Action("Index", "Feedback")">Feedback</a> </li>
+                            <li>
+                                <a href="@Url.Action("Register", "Supplier")">Become Our Supplier</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="new">
+                            <h3>Newsletter</h3>
+                            <form class="newtetter">
+                                <input class="tetter" placeholder="Your email" type="text" name="Your email">
+                                <button class="submit">Subscribe</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+
+            </div>
+        </div>
+    </footer>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <div class="overlay"></div>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Javascript files-->
+    <script src="~/Scripts/js/jquery.min.js"></script>
+    <script src="~/Scripts/js/popper.min.js"></script>
+    <script src="~/Scripts/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/js/owl.carousel.min.js"></script>
+    <script src="~/Scripts/js/custom.js"></script>
+    <script src="~/Scripts/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/Scripts/js/main.js"></script>
+    <script src="~/Content/css/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/css/glightbox/js/glightbox.min.js"></script>
+    <script src="~/Content/css/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/Content/css/php-email-form/validate.js"></script>
+    <script src="~/Content/css/swiper/swiper-bundle.min.js"></script>
+    @*    <script src="~/Scriptsjs/jquery-3.0.0.min.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#dismiss, .overlay').on('click', function () {
+                $('#sidebar').removeClass('active');
+                $('.overlay').removeClass('active');
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').addClass('active');
+                $('.overlay').addClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+
+            setTimeout(function () {
+                $('.badge').fadeOut('slow')
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

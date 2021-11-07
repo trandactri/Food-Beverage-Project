@@ -1,0 +1,60 @@
+﻿@model IEnumerable<LoginandR.Models.BillDetail>
+@{
+    ViewBag.Title = "User Bill";
+    Layout = "~/Views/Shared/_SupplierLayout.cshtml";
+}
+
+<table class="table table-bordered" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Bill.User.uUsername)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bill.bDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bill.User.uAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bill.User.uPhone)
+            </th>
+            <th>
+
+            </th>            
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bill.User.uUsername)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bill.bDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bill.User.uAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bill.User.uPhone)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "BillManagement", new { id = item.Bill.uID }, new { @class = "btn btn-info" })
+            </td>
+        </tr>            
+        }
+    </tbody>
+
+</table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+}
+

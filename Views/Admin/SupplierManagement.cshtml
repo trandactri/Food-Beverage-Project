@@ -1,0 +1,78 @@
+﻿@model IEnumerable<LoginandR.Models.Supplier>
+
+@{
+    ViewBag.Title = "SupplierManagement";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>SupplierManagement</h2>
+
+
+<table class="table table-bordered" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.supImg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.supName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.supPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.supAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.supEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.supDescription)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.supStatus)
+            {
+                <tr>
+                    <td>
+                        <img src="@Url.Content(item.supImg)" alt="Image for @Html.DisplayFor(modelItem => item.supName)" width="50" height="50" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.supName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.supPhone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.supAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.supEmail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.supDescription)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "DetailsUser", new { id = item.supID }, new { @class = "btn btn-info" })                        
+                    </td>
+                    <td>                        
+                        @Html.ActionLink("Delete", "DeleteSupplier", new { id = item.supID }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+}

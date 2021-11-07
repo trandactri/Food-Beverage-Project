@@ -1,0 +1,77 @@
+﻿@model IEnumerable<LoginandR.Models.Product>
+@{ ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml"; }
+
+
+<div style="padding-top:300px; padding-bottom: 150px!important;" class="container pb-5 mb-sm-1">
+    <div class="row">
+        <!-- Categories grid-->
+        @foreach (var item in Model)
+        {<!-- Category-->
+            <div class="col-md-4 col-sm-6">
+                <div class="card border-0 mb-grid-gutter">
+                    <a class="card-img-tiles" href="@Url.Action("Details", new { id = @item.proID })">
+                        <div class="main-img"><img src="~/Assets/img/@item.proImg" style="width:425px; height:300px;" alt="image"></div>
+                    </a>
+                    <div class="card-body border mt-n1 py-4 text-center">
+                        <a href="@Url.Action("Details", new { id = @item.proID })">
+                            <h2 class="h5 mb-1">@item.proName</h2>
+                        </a>
+                        @{
+                            var temp = item.proPrice - item.proPrice * item.discount / 100;
+                            if (item.discount == 0)
+                            {
+                                <span class="d-block mb-3 font-size-xs text-muted"><strong>Price:</strong> <span class="font-weight-semibold">@item.proPrice.ToString("#,##") VND</span></span>
+                                <span class="d-block mb-3 font-size-xs text-muted"><s><strong>Discount</strong></s></span>
+                            }
+                            else
+                            {
+                                <span class="d-block mb-3 font-size-xs text-muted"><strong>Price:</strong> <span class="font-weight-semibold"> @temp.ToString("#,##") VND <s>(@item.proPrice.ToString("#,##"))</s></span></span>
+                                <span class="d-block mb-3 font-size-xs text-muted"><strong>Discount:</strong> <span class="font-weight-semibold">@item.discount %</span></span>
+
+                            }
+                        }
+
+                        @if (Session["Role"] == null || Session["Role"].ToString() == "user")
+                        {
+                            <a class="btn btn-pill btn-outline-dark btn-lg" @if (Session["Role"] == null) { <text> onclick="return confirm('You must login to do this action. Will you?');" </text> } href="@Url.Action("AddCart","Cart", new { @proID=item.proID, @strURL = Request.Url.ToString()})">Add to Cart</a>
+                        }
+                    </div>
+
+                </div>
+
+            </div>}
+
+    </div>
+    <br />
+    <div class="row text-center" style="border:1px">
+        <ul style="padding-left:50%;" class="pagination">
+            @{ int numberPage = ViewBag.numberPage;
+                int pageCurrent = ViewBag.pageCurrent;
+                if (pageCurrent > 1)
+                {
+                    int prePage = pageCurrent - 1;
+                    <li style="border:1px;" class="active"><a href="?page=@prePage">Pre</a></li>
+                }
+                int i;
+                for (i = 1; i <= numberPage; i++)
+                {
+                    if (i == pageCurrent)
+                    {
+                        <li style="border:1px;" class="active"><a href="?page=@i">@i</a></li>
+                    }
+                    else
+                    {
+                        <li style="border:1px;"><a href="?page=@i">@i</a></li>
+                    }
+                }
+                if (pageCurrent > 1 && pageCurrent < numberPage)
+                {
+                    int nextPage = pageCurrent + 1;
+                    <li style="border:1px;" class="active"><a href="?page=@nextPage">Next</a></li>
+ } }
+        </ul>
+    </div>
+
+</div>
+

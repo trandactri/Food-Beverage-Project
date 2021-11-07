@@ -1,0 +1,57 @@
+﻿@model IEnumerable<LoginandR.Models.Bill>
+@{
+    ViewBag.Title = "Orders";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+
+<style>
+    #dataTable_wrapper {
+        padding-top: 300px;
+        padding-bottom: 320px;
+    }
+</style>
+
+<h2>Orders</h2>
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.bID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.bDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.bID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.bDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.bID }, new { @class = "btn btn-info btn-lg" })
+                </td>
+            </tr>
+
+        }
+    </tbody>
+
+    
+
+</table>
+
+@section Scripts{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>    
+
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable();
+        });
+    </script>
+}

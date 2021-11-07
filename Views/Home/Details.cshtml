@@ -1,0 +1,79 @@
+﻿@model LoginandR.Models.Product
+@{ ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml"; }
+
+<div style="padding-top:300px; padding-bottom: 320px;" class="container mt-5 mb-5">
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-md-6 border-end">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="thumbnail_images">
+                        <div class="pro-img-details">
+                            <img src="~/Assets/img/@Model.proImg" style="width:60%; height:60%" alt="main_product_image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 right-side">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="pro-d-title">
+                            <a class="">
+                                @Model.proName
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="mt-2 pr-3 content">
+                        <p>
+                            @Model.proDescription
+                        </p>
+                    </div>
+                    <div class="m-bot15">
+                        <h3><strong>Price: </strong></h3>
+                        @{
+                            var temp = Model.proPrice - Model.proPrice * Model.discount / 100;
+                            if (Model.discount == 0)
+                            {
+                                <h3><span class="amount-old">@Model.proPrice.ToString("#,##") VND </span></h3>
+                            }
+                            else
+                            {
+                                <h3><span class="amount-old">@temp.ToString("#,##") VND <s>(@Model.proPrice)</s></span></h3>
+                            }
+                        }
+                    </div>
+                    <div class="product_meta">
+                        <div class="m-bot15"><strong>Supplier:</strong> <span class="amount-old">@Model.Supplier.supName</span></div>
+                    </div>
+                    <div class="m-bot15"><strong>Type: </strong> <span class="amount-old">@Model.TypeP.tName</span></div>
+
+                    @if (Model.discount != 0)
+                    {
+                        <div class="m-bot15"><strong>Discount: </strong> <span class="amount-old">@Model.discount %</span></div>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            @{
+                                if (Session["Role"] != null)
+                                {
+                                    if (Session["Role"].ToString() == "user")
+                                    {
+                                        <div class="buttons d-flex flex-row mt-5 gap-3"><a class="btn btn-dark btn-lg" @if (Session["Role"] == null) { <text> onclick="return confirm('You must login to do this action. Will you?');" </text> } href="@Url.Action("AddCart","Cart", new { @proID=Model.proID, @strURL = Request.Url.ToString() })"> Add to Cart </a> </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="buttons d-flex flex-row mt-5 gap-3"><a class="btn btn-dark btn-lg" @if (Session["Role"] == null) { <text> onclick="return confirm('You must login to do this action. Will you?');" </text> } href="@Url.Action("AddCart","Cart", new { @proID=Model.proID, @strURL = Request.Url.ToString() })"> Add to Cart </a> </div>
+                                }
+                            }
+                        </div>
+                        <div class="col-md-10 buttons d-flex flex-row mt-5 gap-3">
+                            @Html.ActionLink("Back to Menu", "Product", "Home", null, new { @class = "btn btn-warning btn-lg" })
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

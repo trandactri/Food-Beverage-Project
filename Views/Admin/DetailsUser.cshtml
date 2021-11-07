@@ -1,0 +1,106 @@
+﻿@model LoginandR.Models.User
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>User</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.uUsername)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.uUsername)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.uPwd)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.uPwd)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.uFirstname)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.uFirstname)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.uLastname)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.uLastname)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.uPhone)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.uPhone)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.uAddress)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.uAddress)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.uBirthday)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.uBirthday)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.uEmail)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.uEmail)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.uGender)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.uGender)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.uCreditCard)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.uCreditCard)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.uID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

@@ -1,0 +1,121 @@
+﻿@model LoginandR.Models.Supplier
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_SupplierLayout.cshtml";
+}
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('.badge').fadeOut('slow');
+        }, 3000);
+    </script>
+}
+<center>
+    <meta charset="utf-8" />
+    <h2>Edit Supplier Profile</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.supID)
+            @Html.HiddenFor(model => model.supUsername)
+            @Html.HiddenFor(model => model.supPwd)
+            @Html.HiddenFor(model => model.ConfirmPassword, new { Value = Model.supPwd })
+            @Html.HiddenFor(model => model.supImg)
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.supImg, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.supImg, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.supImg, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            <div class="form-group">
+
+                <div class="col-md-3">
+                    <img src="@Url.Content(Model.supImg)" alt="Image for @Html.DisplayFor(model => model.supName)" class="rounded-circle img-fluid" style="width: 189px;">
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.supName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.supName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.supName, "", new { @class = "badge badge-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.supPhone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.supPhone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.supPhone, "", new { @class = "badge badge-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.supEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.supEmail, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.supEmail, "", new { @class = "badge badge-danger" })
+                    @if (ViewBag.error != null)
+                    {
+                        <span class="badge badge-danger">@ViewBag.error</span>}
+                    @if (ViewBag.dupAdmin != null)
+                    {
+                        <span class="badge badge-danger">@ViewBag.dupAdmin</span>}
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.supAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.supAddress, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.supAddress, "", new { @class = "badge badge-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.supDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.supDescription, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.supDescription, "", new { @class = "badge badge-danger" })
+                </div>
+            </div>
+
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.supImg, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.supImg, new { type = "file", htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.supImg, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            <br />
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-3">
+                    <input type="submit" value="Save" class="btn btn-warning" />
+                    @Html.ActionLink("Change Password", "EditPassword", null, null, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Back to Profile", "SupplierProfile", null, null, new { @class = "btn btn-secondary" })
+                </div>
+            </div>
+
+
+        </div>
+    }
+</center>
+
+
+

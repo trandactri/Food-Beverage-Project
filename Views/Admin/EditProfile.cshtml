@@ -1,0 +1,91 @@
+﻿@model LoginandR.Models.Admin
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<center>
+    <meta charset="utf-8" />
+    <h2>Edit</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>User</h4>
+            <hr />
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.adID)
+            @Html.HiddenFor(model => model.adUsername)
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.uUsername, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.uUsername, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.uUsername, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.uPwd, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.uPwd, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.uPwd, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+            @Html.HiddenFor(model => model.adPwd)
+            @Html.HiddenFor(model => model.ConfirmPassword, new { Value = Model.adPwd })
+            <div class="form-group">
+                @Html.LabelFor(model => model.adFirstname, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.adFirstname, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.adFirstname, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.adLastname, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.adLastname, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.adLastname, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.adPhone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.adPhone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.adPhone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.adEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.adEmail, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.adEmail, "", new { @class = "text-danger" })
+                    @if (ViewBag.error != null)
+                    {
+                        <span class="badge badge-danger">@ViewBag.error</span>}
+                </div>
+            </div>
+
+            <br />
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-3">
+                    <input type="submit" value="Save" class="btn btn-warning" />
+                    @Html.ActionLink("Change Password", "EditPassword", null, null, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Back to Profile", "Index", null, null, new { @class = "btn btn-secondary" })
+                </div>
+            </div>
+
+
+        </div>
+    }
+</center>
+
+
+

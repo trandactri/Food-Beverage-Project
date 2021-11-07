@@ -1,0 +1,58 @@
+﻿@using LoginandR.Models
+@model LoginandR.Models.Cart
+@{ ViewBag.Title = "UpdateCart";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml"; }
+
+@{ List<Cart> lstCart = ViewBag.GioHang as List<Cart>; }
+
+
+<div style="padding-top:300px" class="container pb-5 mb-sm-1">
+    <div class="row">
+        <table class="table" style="padding-top:500px;">
+            <thead>
+                <tr>
+                    <td>Product Name</td>
+                    <td>Image</td>
+                    <td>Quantity</td>
+                    <td>Price</td>
+                    <td>Total Price</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in lstCart)
+                {
+                    //San pham co ma san pham duoc gui tu tham so ben trang xem gio hang
+                    if (Model.proID == item.proID)
+                    {
+                        using (Html.BeginForm("Update", "Cart"))
+                        {
+    <tr>
+        @Html.Hidden("proID", item.proID)
+        <td>@item.proName</td>
+        <td><img src="~/Assets/img/@item.proImg" style="width:50px; height:50px;" alt="image"></td>
+        <td>@Html.TextBox("cartQuantity", item.cartQuantity)</td>
+        <td>@item.proPrice.ToString("#,##") VND</td>
+        <td>@item.cartPrice.ToString("#,##") VND</td>
+        <td><input type="submit" value="Save" class="btn btn-success btn-lg" /></td>
+        <td>@Html.ActionLink("Delete", "DeleteCart", new { @proID = item.proID }, new { @class = "btn btn-danger btn-lg", onclick = "return confirm('Are you sure?');" })</td>
+    </tr> }
+                    }
+
+                    else
+                    {
+    <tr>
+        <td>@item.proName</td>
+        <td><img src="~/Assets/img/@item.proImg" style="width:50px; height:50px;" alt="image"></td>
+        <td>@item.cartQuantity</td>
+        <td>@item.proPrice.ToString("#,##") VND</td>
+        <td>@item.cartPrice.ToString("#,##") VND</td>
+        <td>@Html.ActionLink("Update", "UpdateCart", new { @proID = item.proID }, new { @class = "btn btn-success btn-lg" })</td>
+        <td>@Html.ActionLink("Delete", "DeleteCart", new { @proID = item.proID }, new { @class = "btn btn-danger btn-lg", onclick = "return confirm('Are you sure?');" })</td>
+    </tr>}
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

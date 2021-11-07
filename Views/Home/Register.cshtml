@@ -1,0 +1,125 @@
+﻿@model LoginandR.Models.User
+@{ ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml"; }
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('.badge').fadeOut('slow');
+        }, 3000);
+    </script>
+    }
+<center>
+    <div class="row justify-content-md-center">
+        <div class="col-md-5" style="margin-top: 100px;">
+            @using (Html.BeginForm("Register", "Home", FormMethod.Post))
+
+            {
+
+                @Html.AntiForgeryToken()
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Register Form</h2>
+
+                    </div>
+
+                    @*<div class="form-group">
+                            <img src="https://vualonquay.vn/images/app2.png" hspace="150">
+                        </div>*@
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.uFirstname, "", new { @placeholder = "First Name", @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.uFirstname, "", new { @class = "badge badge-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.uLastname, "", new { @class = "form-control", @placeholder = "Last Name" })
+                                    @Html.ValidationMessageFor(m => m.uLastname, "", new { @class = "badge badge-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.uUsername, "", new { @class = "form-control", @placeholder = "Username" })
+                            @Html.ValidationMessageFor(m => m.uUsername, "", new { @class = "badge badge-danger" })
+                            @if (ViewBag.errorUS != null)
+                            {
+                                <span class="badge badge-danger">@ViewBag.errorUS</span>
+                            }
+                            @if (ViewBag.dupAdmin != null)
+                            {
+                                <span class="badge badge-danger">@ViewBag.dupAdmin</span>
+                            }
+                        </div>
+                        <div class="form-group">
+                            @Html.PasswordFor(m => m.uPwd, new { @class = "form-control", @placeholder = "Password" })
+                            @Html.ValidationMessageFor(m => m.uPwd, "", new { @class = "badge badge-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "badge badge-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.uPhone, "", new { @class = "form-control", @placeholder = "Phone Number" })
+                            @Html.ValidationMessageFor(m => m.uPhone, "", new { @class = "badge badge-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.uAddress, "", new { @class = "form-control", @placeholder = "Address" })
+                            @Html.ValidationMessageFor(m => m.uAddress, "", new { @class = "badge badge-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.uBirthday)
+                            <br />
+                            @Html.EditorFor(m => m.uBirthday, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.uBirthday, "", new { @class = "badge badge-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.uEmail, "", new { @class = "form-control", @placeholder = "Email" })
+                            @Html.ValidationMessageFor(m => m.uEmail, "", new { @class = "badge badge-danger" })
+                            @if (ViewBag.errorEmail != null)
+                            {
+                                <span class="badge badge-danger">@ViewBag.errorEmail</span>
+                            }
+                            @if (ViewBag.dupAdmin != null)
+                            {
+                                <span class="badge badge-danger">@ViewBag.dupAdmin</span>
+                            }
+                        </div>
+                        <div class="form-group">
+                            
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(m => m.uGender):
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.RadioButtonFor(m => m.uGender, "Male", new { @checked = "true" })
+                                    <label class="radio" for="Male">Male</label>
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.RadioButtonFor(m => m.uGender, "Female")
+                                    <label class="radio" for="Female">Female</label>
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.RadioButtonFor(m => m.uGender, "Other")
+                                    <label class="radio" for="Other">Other</label>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.uCreditCard, "", new { @class = "form-control", @placeholder = "Credit Card Number" })
+                            @Html.ValidationMessageFor(m => m.uCreditCard, "", new { @class = "badge badge-danger" })
+                        </div>
+                        <div class="form-group row" style="margin-left:5px;">
+                            <input type="submit" name="submit" class="btn btn-primary" value="Register" />
+                            <a href="@Url.Action("Login","Home")" class="btn btn-outline-secondary" style="margin-left:15px;">Back to Login</a>
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+</center>

@@ -1,0 +1,145 @@
+﻿@model LoginandR.Models.User
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('.badge').fadeOut('slow');
+        }, 3000);
+    </script>
+}
+<center>
+    <meta charset="utf-8" />
+    <h2>Edit</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>@Session["Fullname"]</h4>
+            <hr />
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.uID)
+            @Html.HiddenFor(model => model.uUsername)
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.uUsername, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.uUsername, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.uUsername, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.uPwd, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.uPwd, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.uPwd, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+            @Html.HiddenFor(model => model.uPwd)
+            @Html.HiddenFor(model => model.ConfirmPassword, new { Value = Model.uPwd })
+            <div class="form-group">
+                @Html.LabelFor(model => model.uFirstname, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.uFirstname, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.uFirstname, "", new { @class = "badge badge-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.uLastname, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.uLastname, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.uLastname, "", new { @class = "badge badge-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.uPhone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.uPhone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.uPhone, "", new { @class = "badge badge-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.uAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.uAddress, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.uAddress, "", new { @class = "badge badge-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.uBirthday, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.uBirthday, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.uBirthday, "", new { @class = "badge badge-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.uEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.uEmail, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.uEmail, "", new { @class = "badge badge-danger" })
+                    @if (ViewBag.error != null)
+                    {
+                        <span class="badge badge-danger">@ViewBag.error</span>
+                    }
+                    @if (ViewBag.dupAdmin != null)
+                    {
+                        <span class="badge badge-danger">@ViewBag.dupAdmin</span>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.uGender):
+                
+                    <label class="radio"></label>
+                    @Html.RadioButtonFor(m => m.uGender, "Male", new { @checked = "true" })
+                    <label class="radio" for="Male">Male</label>
+                    @Html.RadioButtonFor(m => m.uGender, "Female")
+                    <label class="radio" for="Female">Female</label>
+                    @Html.RadioButtonFor(m => m.uGender, "Other")
+                    <label class="radio" for="Other">Other</label>
+                    @Html.ValidationMessageFor(m => m.uGender, "", new { @class = "badge badge-danger" })
+                
+
+
+            </div>
+            @if (Model.uCreditCard != null)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.uCreditCard, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.uCreditCard, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.uCreditCard, "", new { @class = "badge badge-danger" })
+                    </div>
+                </div>
+            }
+
+            <br />
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-3">
+                    <input type="submit" value="Save" class="btn btn-warning" />
+                    @Html.ActionLink("Change Password", "EditPassword", null, null, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Back to Profile", "Index", null, null, new { @class = "btn btn-secondary" })
+                </div>
+            </div>
+
+
+        </div>
+    }
+</center>
+
+
+

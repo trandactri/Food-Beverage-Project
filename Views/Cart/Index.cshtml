@@ -1,0 +1,99 @@
+﻿@model List<LoginandR.Models.Cart>
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml"; }
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {            
+            setTimeout(function () {
+                $('.badge').fadeOut('slow')
+            }, 4000);
+});
+    </script>
+}
+
+
+
+@if (Model == null || Model.Count == 0)
+{
+    <div style="padding-top:350px; margin-bottom: 400px!important" class="container pb-5 mb-sm-1">
+        <center>
+            <div>
+                <img src="~/Assets/img/image-removebg-preview.jpg" alt="Alternate Text" width="300" height="300" />
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4" style="padding-top: 15px">
+                    <h2>There are no items in your cart</h2>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <br />
+            <a href="@Url.Action("Product","Home")" class="btn btn-warning btn-lg">Shop Now</a>
+        </center>
+    </div> }
+else
+{
+
+
+    <div style="padding-top:400px; margin-bottom: 410px!important" class="container pb-5 mb-sm-1">
+        <center>
+            @if (TempData["errorQuan"] != null)
+            {
+                <span class="badge badge-danger btn-lg btn-block" style="background-color: #dc3545 !important; margin-bottom: 100px">@TempData["errorQuan"]</span>
+            }
+            @if (TempData["outStock"] != null)
+            {
+                <span class="badge badge-danger btn-lg btn-block" style="background-color: #dc3545 !important; margin-bottom: 100px">@TempData["outStock"]</span>
+            }
+        </center>
+        <div class="row">
+            <table class="table" style="padding-top:500px;">
+                <thead>
+                    <tr>
+                        <td>Product Name</td>
+                        <td>Image</td>
+                        <td style="text-align: center">Quantity</td>
+                        <td style="text-align: center">Unit Price</td>
+                        <td style="text-align: right">Total Price</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.proName</td>
+                            <td> <img src="~/Assets/img/@item.proImg" style="width:100px; height:100px;" alt="image"></td>
+                            <td style="text-align: center">@item.cartQuantity</td>
+                            <td style="text-align: center">@item.proPrice.ToString("#,##") VND</td>
+                            <td style="text-align: right">@item.cartPrice.ToString("#,##") VND</td>
+                            <td style="text-align: right">@Html.ActionLink("Update", "UpdateCart", new { @proID = item.proID }, new { @class = "btn btn-primary btn-lg" })</td>
+                            <td style="text-align: right">
+                                @Html.ActionLink("Delete", "DeleteCart", new { @proID = item.proID }, new { @class = "btn btn-danger btn-lg", onclick = "return confirm('Are you sure?');" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+
+            </table>
+
+            <div class="divOrder">
+                @using (Html.BeginForm("Order", "Cart"))
+                {
+                    <div style="text-align:right" class="row">
+                        <div class="col-md-8" style="text-align: right; padding-right: 7.7em;">
+                            <strong>Summary</strong>
+                        </div>
+                        <div class="col-md-2" style="text-align: center; padding-right: 4em;">
+                            @ViewBag.total.ToString() VND
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Order Now" class="btn btn-success btn-lg" />
+                        </div>
+                    </div>
+                    <hr />
+                    @Html.ActionLink("Continue to Shop", "Product", "Home", null, new { @class = "btn btn-secondary btn-lg" })}
+            </div>
+        </div>
+    </div>}

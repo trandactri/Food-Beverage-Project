@@ -1,0 +1,68 @@
+﻿@model LoginandR.Models.Feedback
+
+@{ ViewBag.Title = "Feedback";
+    Layout = "~/Views/Shared/_FeedbackLayout.cshtml";}
+
+@{
+    
+        <div class="container-contact100">
+
+            <div class="wrap-contact100">
+                @using (Html.BeginForm())
+
+                {
+
+                    @Html.AntiForgeryToken()
+                    <div class="contact100-form">
+                        <span class="contact100-form-title">
+                            Hello, @Session["Fullname"]
+                        </span>
+                        <span class="contact100-form-title">
+                            Please Send Us Your Feedback
+                        </span>
+                        @Html.HiddenFor(m => m.uID, new { @Value = Session["ID"] })
+                        @Html.HiddenFor(m => m.fStatus)
+                        @Html.HiddenFor(m => m.User.uUsername)
+                        @Html.HiddenFor(m => m.fDate, new { @Value = DateTime.Now })
+
+                        <div class="wrap-input100 validate-input">
+                            @Html.DropDownListFor(m => m.supID, (IEnumerable<SelectListItem>)ViewBag.SupList, null, new { @class = "form-control" }) 
+                        </div>
+
+                        <div class="wrap-input100 validate-input">
+                            @Html.TextAreaFor(m => m.fMessage, new { @class = "form-control", @placeholder = "Feedback Message", rows = "20" })
+                            @Html.ValidationMessageFor(m => m.fMessage, "", new { @class = "badge badge-danger" })
+                        </div>
+
+                        <div class="container-contact100-form-btn row">
+                            <button type="submit" class="contact100-form-btn">
+                                <span>
+                                    <i class="fa fa-paper-plane-o m-r-6" aria-hidden="true"></i>
+                                    Send
+                                </span>
+                            </button>
+                        </div>
+                        <div class="container-contact100-form-btn row">
+                            <a href="@Url.Action("Index","Home")" class="contact100-form-btn">
+                                <span>
+                                    <i class="fa fa-home m-r-6" aria-hidden="true"></i>
+                                    Back to Home
+                                </span>
+                            </a>
+                        </div>
+                    </div>}
+            </div>
+        </div>
+    
+}
+
+
+@section Scripts{
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');</script>
+}
+

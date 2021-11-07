@@ -1,0 +1,70 @@
+﻿@model IEnumerable<LoginandR.Models.Feedback>
+
+@{
+    ViewBag.Title = "Supplier - Feedback Management";
+    Layout = "~/Views/Shared/_SupplierLayout.cshtml";
+}
+
+
+<table class="table table-bordered" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User.uUsername)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Supplier.supName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fMessage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fDate)
+            </th>
+            <th></th>    
+            <th></th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.fStatus)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.uUsername)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Supplier.supName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fMessage)
+                    </td>
+                    <td>
+                        @{
+                            var temp = item.fDate.ToString("dd-MM-yyyy HH:mm:ss");
+                        }
+                        @Html.DisplayFor(modelItem => temp)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.fID }, new { @class = "btn btn-info" })                         
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "DeleteUser", new { id = item.fID }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+
+</table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+    }
+

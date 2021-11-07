@@ -1,0 +1,94 @@
+﻿@model IEnumerable<LoginandR.Models.User>
+
+@{
+    ViewBag.Title = "Admin - User Management";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+    
+    <table class="table table-bordered" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.uFirstname)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.uLastname)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.uPhone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.uAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.uBirthday)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.uEmail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.uGender)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.uCreditCard)
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.isActive)
+                {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.uFirstname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.uLastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.uPhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.uAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.uBirthday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.uEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.uGender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.uCreditCard)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditUser", new { id = item.uID }, new { @class = "btn btn-warning" })                                        
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.uID }, new { @class = "btn btn-info" })
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteUser", new { id = item.uID }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+                }
+            }
+        </tbody>
+        
+
+    </table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+    }
+

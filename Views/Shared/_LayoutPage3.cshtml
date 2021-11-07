@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <meta charset="utf-8" />
+    <title>Contact Us</title>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css">
+    <!-- owl css -->
+    <link rel="stylesheet" href="~/Content/css/owl.carousel.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="~/Content/css/page.css">
+    <!-- responsive-->
+    <link rel="stylesheet" href="~/Content/css/responsive.css">
+    <!-- awesome fontfamily -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- CSS Vendor -->
+    <link href="~/Content/css/animate.css/animate.min.css" rel="stylesheet">
+    <link href="~/Content/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/css/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Content/css/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Content/css/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/Content/css/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i" rel="stylesheet">
+    <!-- Template Main CSS File -->
+    <link href="~/Content/css/why/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+
+    
+
+</head>
+<body>
+    <div class="wrapper">
+        <!-- end loader -->
+
+        <div class="sidebar">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+
+                <div id="dismiss">
+                    <i class="fa fa-times"></i>
+                </div>
+                <ul class="list-unstyled components">
+
+                    <li style="border-top: 2px solid black;">
+                        <a href="@Url.Action("Index","Home")">Home</a>
+                    </li>                    
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
+                        <a href="@Url.Action("About","Home")">About</a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Product" ? "active" : "")">
+                        <a href="@Url.Action("Product","Home")">Product</a>
+                    </li>
+                    @if (Session["Role"] != null)
+                    {
+                        if (Session["Role"].ToString() == "user")
+                        {
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Orders" ? "active" : "")">
+                                <a href="@Url.Action("Orders", "User")">My Orders</a>
+                            </li>
+                        }
+                    }
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")">
+                        <a href="@Url.Action("Contact","Home")">Contact Us</a>
+                    </li>
+                    <li>
+                        <a @if (Session["Role"] == null) { <text> onclick="return confirm('You must login to do this action. Will you?');" </text> } href="@Url.Action("Index","Feedback")">Feedback</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Register", "Supplier")">Become Our Supplier</a>
+                    </li>
+                    @if (Session["Role"] != null)
+                    {
+
+                        <li>
+                            <a href="@Url.Action("Logout","Home")" class="btn btn-warning">Logout</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="content">
+        <!-- header -->
+        <header>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="full">
+                            <a class="logo" href="@Url.Action("Index","Home")"><img style="width: 50px; height: 50px;" src="~/Content/images/logo_bar.png" alt="#" /></a>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="full">
+                            <div class="right_header_info">
+                                <ul>
+                                    <li class="dinone">Contact Us : <img style="margin-right: 15px;margin-left: 15px;" src="~/Content/images/phone_icon.png" alt="#"><a href="#">0909-089-999</a></li>
+                                    <li class="dinone"><img style="margin-right: 15px;" src="~/Content/images/mail_icon.png" alt="#"><a href="#">demo@gmail.com</a></li>
+                                    <li class="dinone"><img style="margin-right: 15px;height: 21px;position: relative;top: -2px;" src="~/Content/images/location_icon.png" alt="#"><a href="#">FPT University at Cantho Campus</a></li>
+                                    @if (Session["Fullname"] == null)
+                                    {
+                                        <li class="button_user"><a class="button active" href="@Url.Action("Login","Home")">Login</a><a class="button" href="@Url.Action("Register","Home")">Register</a></li>
+                                    }
+                                    @{ if (Session["Role"] != null)
+                                        {
+                                            <li class="button_user">
+                                                @if (Session["Role"].ToString() == "user")
+                                                {<a href="@Url.Action("Index","User")">Hello, @Session["Fullname"].ToString()</a>}
+
+                                                @if (Session["Role"].ToString() == "supplier")
+                                                {<a href="@Url.Action("SupplierProfile","Supplier")">Hello, @Session["Fullname"].ToString()</a>}
+
+                                                @if (Session["Role"].ToString() == "admin")
+                                                {<a href="@Url.Action("AdminProfile","Admin")">Hello, @Session["Fullname"].ToString()</a>}
+                                            </li>
+                                            if (Session["Role"].ToString() == "user")
+                                            {
+                                                <li>
+                                                    @Html.Action("CartPatial", "Cart")
+                                                </li>
+                                            }
+                                        } }
+                                    <li>
+                                        <button type="button" id="sidebarCollapse">
+                                            <img src="~/Content/images/menu_icon.png" alt="#">
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+    <!-- end header -->
+    <div>
+        @RenderBody()
+    </div>
+    <footer class="footer text-muted">
+        <div class="footer" style="padding-top: 0px; padding-bottom: 1px; margin-top: 100px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="footer_logo">
+                            <a href="#"><img style="width: 400px; height: 400px;" src="~/Content/images/logop_bar.png" alt="Alternate Text" /></a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <ul class="lik">
+                            <li> <a href="@Url.Action("Index","Home")">Home</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")"> <a href="@Url.Action("About","Home")">About</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Product" ? "active" : "")"> <a href="@Url.Action("Product","Home")">Product</a></li>
+                            @{
+                                if (Session["Role"] != null)
+                                {
+                                    if (Session["Role"].ToString() == "user")
+                                    {
+                                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Orders" ? "active" : "")">
+                                            <a href="@Url.Action("Orders","User")">My Orders</a>
+                                        </li>
+                                    }
+                                }
+                            }
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")"> <a href="@Url.Action("Contact","Home")">Contact Us</a></li>
+                            <li> <a @if (Session["Role"] == null) { <text> onclick="return confirm('You must login to do this action. Will you?');" </text> } href="@Url.Action("Index","Feedback")">Feedback</a> </li>
+                            <li>
+                                <a href="@Url.Action("Register", "Supplier")">Become Our Supplier</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="new">
+                            <h3>Newsletter</h3>
+                            <form class="newtetter">
+                                <input class="tetter" placeholder="Your email" type="text" name="Your email">
+                                <button class="submit">Subscribe</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+
+            </div>
+        </div>
+    </footer>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <div class="overlay"></div>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Javascript files-->
+    <script src="~/Scripts/js/jquery.min.js"></script>
+    <script src="~/Scripts/js/popper.min.js"></script>
+    <script src="~/Scripts/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/js/owl.carousel.min.js"></script>
+    <script src="~/Scripts/js/custom.js"></script>
+    <script src="~/Scripts/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/Scripts/js/main.js"></script>
+    <script src="~/Content/css/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/css/glightbox/js/glightbox.min.js"></script>
+    <script src="~/Content/css/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/Content/css/php-email-form/validate.js"></script>
+    <script src="~/Content/css/swiper/swiper-bundle.min.js"></script>
+    @*    <script src="~/Scriptsjs/jquery-3.0.0.min.js"></script>*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#dismiss, .overlay').on('click', function () {
+                $('#sidebar').removeClass('active');
+                $('.overlay').removeClass('active');
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').addClass('active');
+                $('.overlay').addClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+    @RenderSection("Scripts",required: false)
+</body>
+</html>

@@ -1,0 +1,385 @@
+﻿@model List<LoginandR.Models.Cart>
+@{ ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+<style>
+
+    body {
+        color: #000;
+        overflow-x: hidden;
+        height: 100%;
+        background-color: #fff;
+        background-repeat: no-repeat
+    }
+
+    .plus-minus {
+        position: relative
+    }
+
+    .plus {
+        position: absolute;
+        top: -4px;
+        left: 2px;
+        cursor: pointer
+    }
+
+    .minus {
+        position: absolute;
+        top: 8px;
+        left: 5px;
+        cursor: pointer
+    }
+
+    .vsm-text:hover {
+        color: #FF5252
+    }
+
+    .book,
+    .book-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 5px
+    }
+
+    .book {
+        margin: 20px 15px 5px 15px
+    }
+
+    .border-top {
+        border-top: 1px solid #EEEEEE !important;
+        margin-top: 20px;
+        padding-top: 15px
+    }
+
+    .card {
+        margin: 40px 0px;
+        padding: 40px 50px;
+        border-radius: 20px;
+        border: none;
+        box-shadow: 1px 5px 10px 1px rgba(0, 0, 0, 0.2)
+    }
+
+    input,
+    textarea {
+        background-color: #F3E5F5;
+        padding: 8px 15px 8px 15px;
+        width: 100%;
+        border-radius: 5px !important;
+        box-sizing: border-box;
+        border: 1px solid #F3E5F5;
+        font-size: 15px !important;
+        color: #000 !important;
+        font-weight: 300
+    }
+
+        input:focus,
+        textarea:focus {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: 1px solid #9FA8DA;
+            outline-width: 0;
+            font-weight: 400
+        }
+
+    button:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        outline-width: 0
+    }
+
+    .pay {
+        width: 80px;
+        height: 50px;
+        border-radius: 5px;
+        border: 1px solid #673AB7;
+        margin: 10px 20px 10px 0px;
+        cursor: pointer;
+        box-shadow: 1px 5px 10px 1px rgba(0, 0, 0, 0.2)
+    }
+
+    .gray {
+        -webkit-filter: grayscale(100%);
+        -moz-filter: grayscale(100%);
+        filter: grayscale(100%);
+        color: #E0E0E0
+    }
+
+        .gray .pay {
+            box-shadow: none
+        }
+
+    #tax {
+        border-top: 1px lightgray solid;
+        margin-top: 10px;
+        padding-top: 10px
+    }
+
+    .btn-blue {
+        border: none;
+        border-radius: 10px;
+        background-color: #673AB7;
+        color: #fff;
+        padding: 8px 15px;
+        margin: 20px 0px;
+        cursor: pointer;
+        height: 25%;
+    }
+
+        .btn-blue:hover {
+            background-color: #311B92;
+            color: #fff
+        }
+
+    .btn-orange {
+        border: none;
+        border-radius: 10px;
+        background-color: #FF5252;
+        color: #fff;
+        padding: 8px 15px;
+        margin: 20px 0px;
+        cursor: pointer;
+        height: 25%;
+    }
+
+        .btn-orange:hover {
+            background-color: #cc0c0c;
+            color: #fff;
+            text-decoration: none;
+        }
+
+    .btn-black {
+        border: none;
+        border-radius: 10px;
+        background-color: #000;
+        color: #fff;
+        padding: 8px 15px;
+        margin: 20px 0px;
+        cursor: pointer;
+        height: 25%;
+    }
+
+        .btn-black:hover {
+            background-color: #5a5959;
+            color: #fff;
+            text-decoration: none;
+        }
+
+    #checkout {
+        float: left
+    }
+
+    #check-amt {
+        float: right
+    }
+
+    @@media screen and (max-width: 768px) {
+
+        .book,
+        .book-img {
+            width: 100px;
+            height: 150px
+        }
+
+        .card {
+            padding-left: 15px;
+            padding-right: 15px
+        }
+
+        .mob-text {
+            font-size: 13px
+        }
+
+        .pad-left {
+            padding-left: 20px
+        }
+    }
+</style>
+
+@if (TempData["modalValid"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show btn-lg" role="alert">
+        <strong>Thanks for using my website @Session["Fullname"].</strong>
+        <br />
+        Please check <a href="@Url.Action("Orders","User")" style="text-decoration: none; color: black">your order</a> and wait a minute to enjoy your meals
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@{
+    if (Model.Count == 0)
+    {
+        <div style="padding-top:350px; margin-bottom: 400px!important" class="container pb-5 mb-sm-1">
+            <center>
+                <div>
+                    <img src="~/Assets/img/image-removebg-preview.jpg" alt="Alternate Text" width="300" height="300" />
+                </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4" style="padding-top: 15px">
+                        <h2>There are no items in your Order</h2>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <br />
+                <a href="@Url.Action("Product","Home")" class="btn btn-warning btn-lg">Shop Now</a>
+            </center>
+        </div>
+    }
+    else
+    {
+        <div class="container px-4 py-5 mx-auto" style="background-color: #eee">
+            <div class="row d-flex justify-content-center">
+                <div class="col-5">
+                    <h4 class="heading">Checkout</h4>
+                </div>
+                <div class="col-7">
+                    <div class="row text-right">
+                        <div class="col-4">
+                            <h6 class="mt-2">Format</h6>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="mt-2">Quantity</h6>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="mt-2">Unit Price</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @foreach (var item in Model)
+            {
+                <div class="row d-flex justify-content-center border-top">
+                    <div class="col-5">
+                        <div class="row d-flex">
+                            <div class="book"> <img src="~/Assets/img/@item.proImg" class="book-img"> </div>
+                            <div class="my-auto flex-column d-flex pad-left">
+                                <h6 class="mob-text">@item.proName</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-auto col-7">
+                        <div class="row text-right">
+                            <div class="col-4">
+                                <p class="mob-text">Digital</p>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="row d-flex justify-content-end px-3">
+                                    <p class="mb-0" id="cnt1">@item.cartQuantity</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <h6 class="mob-text">@item.proPrice.ToString("#,##") VND</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-lg-3 radio-group">
+                                <div class="row d-flex px-3 radio " id="momo">
+                                    <img class="pay" src="~/Assets/img/momo.png">
+                                    <p class="my-auto">Momo</p>
+                                </div>
+                                <div class="row d-flex px-3 radio gray" id="banking">
+                                    <img class="pay" src="https://i.imgur.com/WIAP9Ku.jpg">
+                                    <p class="my-auto">Credit Card</p>
+                                </div>
+                                <div class="row d-flex px-3 radio gray mb-3" id="cod">
+                                    <img class="pay" src="~/Assets/img/7195939_preview.png">
+                                    <p class="my-auto">Cash On Delivery</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="row px-2" id="bankinfo1">
+                                    <div class="form-group col-md-6"> <label class="form-control-label">Name on Card</label> <input type="text" id="cname" name="cname" placeholder="Johnny Doe"> </div>
+                                    <div class="form-group col-md-6"> <label class="form-control-label">Card Number</label> <input type="text" id="cnum" name="cnum" placeholder="1111 2222 3333 4444" value="@Session["CardNum"]"> </div>
+                                </div>
+                                <div class="row px-2" id="bankinfo2">
+                                    <div class="form-group col-md-6"> <label class="form-control-label">Expiration Date</label> <input type="text" id="exp" name="exp" placeholder="MM/YYYY"> </div>
+                                    <div class="form-group col-md-6"> <label class="form-control-label">CVV</label> <input type="text" id="cvv" name="cvv" placeholder="***"> </div>
+                                </div>
+                                <div class="row px-2" id="bankinfo3">
+                                    <div class="form-group col-md-12"> <label class="form-control-label">Phone Number</label> <input type="text" id="exp" name="exp" value="@Session["Phone"]"> </div>
+                                </div>
+                                @*<div class="row px-2" id="bankinfo4">
+                                    <div class="form-group col-md-12"> <label class="form-control-label">Address</label> <input type="text" asp-for="uAddress" id="exp" name="exp" value="@Session["Address"]"> </div>
+                                </div>*@
+                            </div>
+
+                            <div class="col-lg-4 mt-2">
+                                <div class="row d-flex justify-content-between px-4">
+                                    <p class="mb-1 text-left">Subtotal</p>
+                                    <h6 class="mb-1 text-right">@ViewBag.stringTotal VND</h6>
+                                </div>
+                                <div class="row d-flex justify-content-between px-4">
+                                    <p class="mb-1 text-left">Shipping</p>
+                                    @{var ship = 10000;
+                                        var temp = ship.ToString("#,##");
+                                        var tempTotal = Convert.ToInt32(ViewBag.total) + ship;}
+                                    <h6 class="mb-1 text-right">@temp VND</h6>
+                                </div>
+                                @using (Html.BeginForm("Checkout", "Bill"))
+                                {
+                                    <div class="row d-flex justify-content-between px-4" id="tax">
+                                        <p class="mb-1 text-left">Total (tax included)</p>
+                                        <h6 class="mb-1 text-right">@tempTotal.ToString("#,##") VND</h6>
+                                    </div> <button type="submit" onclick="return confirm('Do you really want to checkout?')" class="btn-block btn-blue btn-lg"> <span> <span id="checkout">Checkout</span> <span id="check-amt">@tempTotal.ToString("#,##") VND</span> </span> </button>
+                                }
+                            </div>
+                            <a href="@Url.Action("Index","Cart")" class="btn-black btn-sm mr-3">Back to Cart</a>
+                            <a href="@Url.Action("Product","Home")" class="btn-orange btn-sm mr-3">Back to Shop</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.radio-group .radio').click(function () {
+                $('.radio').addClass('gray');
+                $(this).removeClass('gray');
+            });
+
+
+            if (!$('#momo').hasClass('gray')) {
+                $('#bankinfo1').css("display", "none");
+                $('#bankinfo2').css("display", "none");
+                $('#bankinfo3').css("display", "flex");
+            }
+
+            $('#momo').click(function () {
+                $('#bankinfo1').css("display", "none");
+                $('#bankinfo2').css("display", "none");
+                $('#bankinfo3').css("display", "flex");
+            });
+
+            $('#banking').click(function () {
+                $('#bankinfo1').css("display", "flex");
+                $('#bankinfo2').css("display", "flex");
+                $('#bankinfo3').css("display", "none");
+            });
+
+            $('#cod').click(function () {
+                $('#bankinfo1').css("display", "none");
+                $('#bankinfo2').css("display", "none");
+                $('#bankinfo3').css("display", "none");
+            });
+
+        });
+
+
+    </script>
+}

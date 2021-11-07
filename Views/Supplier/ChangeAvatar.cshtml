@@ -1,0 +1,60 @@
+﻿@model LoginandR.Models.Supplier
+
+@{
+    ViewBag.Title = "Change Avatar";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('.badge').fadeOut('slow');
+        }, 3000);
+
+        function preview() {
+            frame.src = URL.createObjectURL(event.target.files[0]);
+        }
+    </script>    
+}
+<center>
+    <h2>Change Avatar</h2>
+
+    @using (Html.BeginForm("ChangeAvatar", "Supplier", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.supID)
+            @Html.HiddenFor(model => model.supName)
+            @Html.HiddenFor(model => model.supUsername)
+            @Html.HiddenFor(model => model.supPhone)
+            @Html.HiddenFor(model => model.supAddress)
+            @Html.HiddenFor(model => model.supEmail)
+            @Html.HiddenFor(model => model.supDescription)
+            @Html.HiddenFor(model => model.supImg)
+            @Html.HiddenFor(model => model.supPwd)
+            @Html.HiddenFor(model => model.ConfirmPassword, new { @Value = Model.supPwd})
+
+            <div class="d-flex flex-row align-items-center mb-4">                
+                <div class="form-outline flex-fill mb-0">
+                    @*@Html.TextBoxFor(m => m.ImageFile, new { type = "file", @placeholder = "Image", @class = "form-control", onchange="preview()" }) *@
+                    <i class="fas fa-upload fa-lg me-3 fa-fw"></i>
+                    <input type="file" name="ImageFile" required onchange="preview()" />
+                    <img id="frame" src="" width="100" height="100" />
+                    @Html.ValidationMessageFor(m => m.supImg, "", new { @class = "badge badge-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-12 row" style="padding-left: 400px; margin-left: 400px;">
+                    <a href="@Url.Action("Edit","Supplier")" class="btn btn-outline-primary mr-2">Back to Edit</a>
+                    <input type="submit" value="Save" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+</center>
+
+
+

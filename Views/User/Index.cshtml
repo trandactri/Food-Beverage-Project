@@ -1,0 +1,90 @@
+﻿@model LoginandR.Models.User
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+
+<section style="background-color: #eee; margin-top: 150px;">
+    
+    <div class="container py-5">
+        <h2>User Information</h2>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-1">
+                    <div class="card-body text-center">
+                        <img src="https://mdbootstrap.com/img/Photos/new-templates/bootstrap-chat/ava3.png" alt="avatar" class="rounded-circle img-fluid" style="width: 189px;">
+                        <h5 class="my-3">@Html.DisplayFor(model => model.uFirstname) @Html.DisplayFor(model => model.uLastname)</h5>
+                        @*<p class="text-muted mb-1">Full Stack Developer</p>
+                        <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>*@
+                        <div class="d-flex justify-content-center mb-2">
+                            <button type="button" class="btn btn-info mr-2">@Html.ActionLink("Edit", "Edit", new { id = Session["ID"] })</button> 
+                            <button type="button" class="btn btn-outline-warning ms-1">@Html.ActionLink("Continue to Shopping","Index","Home")</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Full Name</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Html.DisplayFor(model => model.uFirstname) @Html.DisplayFor(model => model.uLastname)</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">@Html.DisplayNameFor(model => model.uEmail)</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Html.DisplayFor(model => model.uEmail)</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">@Html.DisplayNameFor(model => model.uPhone)</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Html.DisplayFor(model => model.uPhone)</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">@Html.DisplayNameFor(model => model.uBirthday)</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Html.DisplayFor(model => model.uBirthday)</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">@Html.DisplayNameFor(model => model.uGender)</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Html.DisplayFor(model => model.uGender)</p>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">@Html.DisplayNameFor(model => model.uAddress)</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Html.DisplayFor(model => model.uAddress)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>
