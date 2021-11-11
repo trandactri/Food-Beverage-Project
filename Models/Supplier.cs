@@ -58,7 +58,7 @@ namespace LoginandR.Models
         /// </summary>
         [Required(ErrorMessage = "Cannot be blank")]
         [Display(Name = "Phone Number")]
-        /*[RegularExpression(@"^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$", ErrorMessage = "Please enter correct phone num")]*/
+        [RegularExpression(@"^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$", ErrorMessage = "Please enter correct phone num")]
         [StringLength(11, MinimumLength = 10, ErrorMessage = "Please enter correct phone num")]
         public string supPhone { get; set; }
 
