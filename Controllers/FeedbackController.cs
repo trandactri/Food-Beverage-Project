@@ -2,13 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
 namespace LoginandR.Controllers
 {
+    /// <summary>
+    /// Controller for feedback
+    /// </summary>
     public class FeedbackController : Controller
     {
+        /// <summary>
+        /// Variable used for activities on DB_Entities
+        /// </summary>
         DB_Entities _db = new DB_Entities();
 
         /// <summary>
@@ -23,12 +30,8 @@ namespace LoginandR.Controllers
                 return RedirectToAction("Login", "Home");
             if (Session["Role"].ToString() != "supplier")
                 return RedirectToAction("Create");
-            else
-            {
                 int tempID = Convert.ToInt32(Session["ID"]); 
-                return View(_db.Feedbacks.Where(x => x.supID == tempID).ToList());
-            }
-                
+                return View(_db.Feedbacks.Where(x => x.supID == tempID).ToList());   
         }
 
         /// <summary>
@@ -41,7 +44,7 @@ namespace LoginandR.Controllers
                 return RedirectToAction("Login", "Home");
             if (Session["Role"].ToString() == "supplier")
                 return RedirectToAction("Index");
-            ViewBag.SupList = new SelectList(_db.Suppliers.Where(x => x.supStatus == true),"supID","supName");
+            ViewBag.SupList = _db.Suppliers.Where(x => x.supStatus == true);
             return View();
         }
 
@@ -54,6 +57,10 @@ namespace LoginandR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "fID,uID,supID,fMessage,fDate")] Feedback feedback)
         {
+            if (feedback == null)
+            {
+                return HttpNotFound();
+            }
             if (ModelState.IsValid)
             {
                 _db.Feedbacks.Add(feedback);
@@ -65,7 +72,70 @@ namespace LoginandR.Controllers
             return View(feedback);
         }
 
+        /// <summary>
+        /// Action used to return a view of feedback details
+        /// </summary>
+        /// <param name="id">feedback id</param>
+        /// <returns>a view of id matched feedback</returns>
+        public ActionResult Details(int? id)
+        {
+            if (Session["Role"] == null)
+            {
+                return RedirectToAction("Login", "Supplier");
+            }
+            else
+            {
+                if (Session["Role"].ToString() != "supplier")
+                {
+                    return RedirectToAction("Login", "Supplier");
+                }
+            }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Feedback feedback = _db.Feedbacks.Find(id);
+            if (feedback == null)
+            {
+                return HttpNotFound();
+            }
+            return View(feedback);
+        }
 
-        
+        /// <summary>
+        /// Action used to delete feedback based on fid
+        /// </summary>
+        /// <param name="id">feedback id</param>
+        /// <returns>index page</returns>
+        [ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Feedback feedback = _db.Feedbacks.Find(id);
+            if (feedback == null)
+            {
+                return HttpNotFound();
+            }
+            feedback.fStatus = false;
+            /*_db.Products.Remove(product);*/
+            this._db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Function used to restore unneccessary or unused resources
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            // need to alway test if disposing pass else reallocations could occur during Finalize pass
+            // also good practice to test resource was created
+            if (disposing && _db != null)
+                _db.Dispose();
+            base.Dispose(disposing);
+        }
     }
 }

@@ -13,8 +13,14 @@ using LoginandR.Models;
 
 namespace LoginandR.Controllers
 {
+    /// <summary>
+    /// Controller for Admin
+    /// </summary>
     public class AdminController : Controller
     {
+        /// <summary>
+        /// Variable used for activities on DB_Entities
+        /// </summary>
         private DB_Entities _db = new DB_Entities();
 
         /// <summary>
@@ -319,7 +325,7 @@ namespace LoginandR.Controllers
         /// </summary>
         /// <param name="id">uID after clicking delete user button</param>
         /// <returns>Return DeleteUser view based on uID if session role is admin, else return login page</returns>
-        public ActionResult DetailsUser(int? id)
+        public ActionResult DeleteUser(int? id)
         {
             if (Session["Role"] == null)
             {
@@ -345,13 +351,43 @@ namespace LoginandR.Controllers
         }
 
         /// <summary>
+        /// Action used to return delete user view based on supID
+        /// </summary>
+        /// <param name="id">uID after clicking delete user button</param>
+        /// <returns>Return DeleteUser view based on supID if session role is admin, else return login page</returns>
+        public ActionResult DeleteSupplier(int? id)
+        {
+            if (Session["Role"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            else
+            {
+                if (Session["Role"].ToString() != "admin")
+                {
+                    return RedirectToAction("Login", "Admin");
+                }
+            }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Supplier supplier = _db.Suppliers.Find(id);
+            if (supplier == null)
+            {
+                return HttpNotFound();
+            }
+            return View(supplier);
+        }
+
+        /// <summary>
         /// After agree on deleting user, send values back to server for processing, set isActive value to false
         /// </summary>
         /// <param name="id">uID after clicking delete user button</param>
         /// <returns>If successfully save changes, return UserManagement view</returns>
         [HttpPost, ActionName("DeleteUser")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteUserConfirmed(int id)
+        public ActionResult DeleteUserConfirmed(User obj)
         {
 
             if (Session["Role"] == null)
@@ -365,9 +401,13 @@ namespace LoginandR.Controllers
                     return RedirectToAction("Login", "Admin");
                 }
             }
-            User user = _db.Users.Find(id);
-            user.ConfirmPassword = user.uPwd;
-            user.isActive = false;
+            if (obj == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            obj.ConfirmPassword = obj.uPwd;
+            obj.isActive = false;
+            _db.Entry(obj).State = EntityState.Modified;
             this._db.SaveChanges();
             return RedirectToAction("UserManagement", "Admin");
         }
@@ -410,7 +450,7 @@ namespace LoginandR.Controllers
         /// <returns>If successfully save changes, return SupplierManagement view</returns>
         [HttpPost, ActionName("DeleteSupplier")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteSupplierConfirmed(int id)
+        public ActionResult DeleteSupplierConfirmed(Supplier obj)
         {
 
             if (Session["Role"] == null)
@@ -424,12 +464,29 @@ namespace LoginandR.Controllers
                     return RedirectToAction("Login", "Admin");
                 }
             }
-            Supplier supplier = _db.Suppliers.Find(id);
-            supplier.ConfirmPassword = supplier.supPwd;
-            supplier.supStatus = false;
+            if (obj == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            obj.ConfirmPassword = obj.supPwd;
+            obj.supStatus = false;
+            _db.Entry(obj).State = EntityState.Modified;
             this._db.SaveChanges();
             return RedirectToAction("SupplierManagement", "Admin");
 
+        }
+
+        /// <summary>
+        /// Function used to restore unneccessary or unused resources
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            // need to alway test if disposing pass else reallocations could occur during Finalize pass
+            // also good practice to test resource was created
+            if (disposing && _db != null)
+                _db.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

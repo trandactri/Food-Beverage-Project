@@ -3,14 +3,13 @@
 
 <head>
     <!-- basic -->
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- mobile metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <meta charset="utf-8" />
-    <title>Contact Us</title>
+    <title>@ViewBag.title</title>
     <!-- bootstrap css -->
     <link rel="stylesheet" href="~/Content/css/bootstrap.min.css">
     <!-- owl css -->
@@ -37,7 +36,7 @@
     <link href="~/Content/css/why/style.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 
-    
+
 
 </head>
 <body>
@@ -55,9 +54,9 @@
 
                     <li style="border-top: 2px solid black;">
                         <a href="@Url.Action("Index","Home")">Home</a>
-                    </li>                    
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">
-                        <a href="@Url.Action("About","Home")">About</a>
+                    </li>
+                    <li>
+                        <a href="/Home/Index/#us">About</a>
                     </li>
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Product" ? "active" : "")">
                         <a href="@Url.Action("Product","Home")">Product</a>
@@ -82,7 +81,9 @@
                     </li>
                     @if (Session["Role"] != null)
                     {
-
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ChatUser" ? "active" : "")">
+                            <a href="@Url.Action("ChatUser", "Chat")">Chat</a>
+                        </li>
                         <li>
                             <a href="@Url.Action("Logout","Home")" class="btn btn-warning">Logout</a>
                         </li>
@@ -149,7 +150,7 @@
         @RenderBody()
     </div>
     <footer class="footer text-muted">
-        <div class="footer" style="padding-top: 0px; padding-bottom: 1px; margin-top: 100px;">
+        <div class="footer" style="padding-top: 0px; padding-bottom: 1px;">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -160,7 +161,7 @@
                     <div class="col-md-12">
                         <ul class="lik">
                             <li> <a href="@Url.Action("Index","Home")">Home</a></li>
-                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")"> <a href="@Url.Action("About","Home")">About</a></li>
+                            <li> <a href="/Home/Index/#us">About</a></li>
                             <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Product" ? "active" : "")"> <a href="@Url.Action("Product","Home")">Product</a></li>
                             @{
                                 if (Session["Role"] != null)
@@ -178,7 +179,12 @@
                             <li>
                                 <a href="@Url.Action("Register", "Supplier")">Become Our Supplier</a>
                             </li>
-
+                            @if (Session["Role"] != null)
+                            {
+                                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ChatUser" ? "active" : "")">
+                                    <a href="@Url.Action("ChatUser", "Chat")">Chat</a>
+                                </li>
+                            }
                         </ul>
                     </div>
                     <div class="col-md-12">
@@ -214,6 +220,7 @@
     <script src="~/Content/css/isotope-layout/isotope.pkgd.min.js"></script>
     <script src="~/Content/css/php-email-form/validate.js"></script>
     <script src="~/Content/css/swiper/swiper-bundle.min.js"></script>
+
     @*    <script src="~/Scriptsjs/jquery-3.0.0.min.js"></script>*@
     <script type="text/javascript">
         $(document).ready(function () {
@@ -234,6 +241,9 @@
             });
         });
     </script>
-    @RenderSection("Scripts",required: false)
+
+    <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

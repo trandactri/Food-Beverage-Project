@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <meta charset="utf-8" />
+
     <!-- Favicons -->
     <link href="~/Content/images/favicon.png" rel="icon">
     <link href="~/Content/images/apple-touch-icon.png" rel="apple-touch-icon">
@@ -56,7 +56,7 @@
                         <a href="@Url.Action("Index", "Home")">Home</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("About", "Home")">About</a>
+                        <a href="/Home/Index/#us">About</a>
                     </li>
                     <li>
                         <a href="@Url.Action("Product", "Home")">Product</a>
@@ -70,22 +70,25 @@
                             </li>
                         }
                     }
-                        <li>
-                            <a href="@Url.Action("Contact", "Home")">Contact Us</a>
+                    <li>
+                        <a href="@Url.Action("Contact", "Home")">Contact Us</a>
+                    </li>
+                    <li>
+                        <a @if (Session["Role"] == null) { <text> onclick="return confirm('You must login to do this action. Will you?');" </text> } href="@Url.Action("Index", "Feedback")">Feedback</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Register", "Supplier")">Become Our Supplier</a>
+                    </li>
+                    @if (Session["Role"] != null)
+                    {
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ChatUser" ? "active" : "")">
+                            <a href="@Url.Action("ChatUser", "Chat")">Chat</a>
                         </li>
                         <li>
-                            <a @if (Session["Role"] == null) { <text> onclick="return confirm('You must login to do this action. Will you?');" </text> } href="@Url.Action("Index", "Feedback")">Feedback</a>
+                            <a href="@Url.Action("Logout", "Home")" class="btn btn-warning">Logout</a>
                         </li>
-                        <li>
-                            <a href="@Url.Action("Register", "Supplier")">Become Our Supplier</a>
-                        </li>
-                        @if (Session["Role"] != null)
-                        {
-                            <li>
-                                <a href="@Url.Action("Logout", "Home")" class="btn btn-warning">Logout</a>
-                            </li>
-                        }
-                    </ul>
+                    }
+                </ul>
             </nav>
         </div>
     </div>
@@ -299,7 +302,7 @@
         </div>
     </section><!-- End About Section -->
     <!-- ======= IT Section ======= -->
-    <section id="chefs" class="chefs">
+    <section id="us" class="chefs">
         <div class="container">
 
             <div class="section-title">
@@ -427,7 +430,7 @@
                     <div class="col-md-12">
                         <ul class="lik">
                             <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"> <a href="@Url.Action("Index", "Home")">Home</a></li>
-                            <li> <a href="@Url.Action("About", "Home")">About</a></li>
+                            <li> <a href="/Home/Index/#us">About</a></li>
                             <li> <a href="@Url.Action("Product", "Home")">Product</a></li>
                             @{
                                 if (Session["Role"] != null)
@@ -445,7 +448,12 @@
                             <li>
                                 <a href="@Url.Action("Register", "Supplier")">Become Our Supplier</a>
                             </li>
-
+                            @if (Session["Role"] != null)
+                            {
+                                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ChatUser" ? "active" : "")">
+                                    <a href="@Url.Action("ChatUser", "Chat")">Chat</a>
+                                </li>
+                            }
                         </ul>
                     </div>
                     <div class="col-md-12">

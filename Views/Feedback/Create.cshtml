@@ -26,7 +26,7 @@
                         @Html.HiddenFor(m => m.fDate, new { @Value = DateTime.Now })
 
                         <div class="wrap-input100 validate-input">
-                            @Html.DropDownListFor(m => m.supID, (IEnumerable<SelectListItem>)ViewBag.SupList, null, new { @class = "form-control" }) 
+                            @Html.DropDownListFor(m => m.supID, new SelectList(ViewBag.SupList, "supID","supName"), new { @class = "form-control" })                            
                         </div>
 
                         <div class="wrap-input100 validate-input">
@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="container-contact100-form-btn row">
-                            <button type="submit" class="contact100-form-btn">
+                            <button type="submit" class="contact100-form-btn" onclick="return confirm('Do you really want to send this feedback?');">
                                 <span>
                                     <i class="fa fa-paper-plane-o m-r-6" aria-hidden="true"></i>
                                     Send

@@ -2,8 +2,24 @@
 @{ ViewBag.Title = "Product";
     Layout = "~/Views/Shared/_LayoutPage3.cshtml"; }
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('.badge').fadeOut('slow')
+            }, 4000);
+        });
+    </script>
+}
 
-<div style="padding-top:300px; padding-bottom: 150px!important;" class="container pb-5 mb-sm-1">
+<div style="padding-top:100px; padding-bottom: 150px!important;" class="container pb-5 mb-sm-1">
+    <center>
+        <h1 style="font-weight: 600; font-size: 40px; padding-bottom: 2em;">MENU</h1>
+        @if (TempData["outQuan"] != null)
+        {
+            <span class="badge badge-danger btn-lg btn-block" style="background-color: #dc3545 !important; margin-bottom: 100px">@TempData["outQuan"]</span>
+        }
+    </center>
     <div class="row">
         <!-- Categories grid-->
         @foreach (var item in Model)
@@ -51,7 +67,7 @@
                 if (pageCurrent > 1)
                 {
                     int prePage = pageCurrent - 1;
-                    <li style="border:1px;" class="active"><a href="?page=@prePage">Pre</a></li>
+                    <li style="border:1px;"><a href="?page=@prePage">Pre</a></li>
                 }
                 int i;
                 for (i = 1; i <= numberPage; i++)
@@ -65,11 +81,11 @@
                         <li style="border:1px;"><a href="?page=@i">@i</a></li>
                     }
                 }
-                if (pageCurrent > 1 && pageCurrent < numberPage)
+                if (pageCurrent >= 1 && pageCurrent < numberPage)
                 {
                     int nextPage = pageCurrent + 1;
-                    <li style="border:1px;" class="active"><a href="?page=@nextPage">Next</a></li>
- } }
+                    <li style="border:1px;"><a href="?page=@nextPage">Next</a></li>
+                } }
         </ul>
     </div>
 

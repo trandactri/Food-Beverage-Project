@@ -55,6 +55,11 @@
                 {
                     <span class="badge badge-success" id="successView">@TempData["success"]</span>
                 }
+
+                if (TempData["Message"] != null)
+                {
+                    <span class="badge badge-success" id="successView">@TempData["Message"]</span>
+                }
                 <div class="form-group">
                     @Html.TextBoxFor(m => m.uUsername, "", new { @class = "form-control", @placeholder = "Username" })
                     @Html.ValidationMessageFor(m => m.uUsername, "", new { @class = "badge badge-danger" })
@@ -67,13 +72,8 @@
                 {
                     <span class="badge badge-danger" id="errorView">@ViewBag.error</span>
                 }
-                <a href="#">Forgot your password?</a>
+                <a href="@Url.Action("ForgotPassword","User")">Forgot your password?</a>
                 <input type="submit" name="submit" class="btn btn-primary" value="Login" />
-                <button href="#" class="social btn-block">
-                    Login with Google
-                    <i class="fab fa-google-plus-g">
-                    </i>
-                </button>
             }
 
         </div>

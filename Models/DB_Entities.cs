@@ -44,12 +44,12 @@ namespace LoginandR.Models
         public DbSet<TypeP> TypePs { get; set; }
 
         /// <summary>
-        /// 
+        /// Bills database set represents the collection of Bill values
         /// </summary>
         public DbSet<Bill> Bills { get; set; }
 
         /// <summary>
-        /// 
+        /// BillDetails database set represents the collection of BillDetail values
         /// </summary>
         public DbSet<BillDetail> BillDetails { get; set; }
 

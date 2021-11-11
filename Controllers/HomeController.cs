@@ -9,9 +9,14 @@ using System.Web.Mvc;
 
 namespace LoginandR.Controllers
 {
-
+    /// <summary>
+    /// Controller for home
+    /// </summary>
     public class HomeController : Controller
     {
+        /// <summary>
+        /// Variable used for activities on DB_Entities
+        /// </summary>
         private DB_Entities _db = new DB_Entities();
 
         /// <summary>
@@ -24,10 +29,10 @@ namespace LoginandR.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Action used to return a view
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">product id</param>
+        /// <returns>a view of product match id</returns>
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -40,15 +45,6 @@ namespace LoginandR.Controllers
                 return HttpNotFound();
             }
             return View(product);
-        }
-
-        /// <summary>
-        /// Action used to return a view
-        /// </summary>
-        /// <returns> About us view </returns>
-        public ActionResult About()
-        {
-            return View();
         }
 
         /// <summary>
@@ -145,7 +141,7 @@ namespace LoginandR.Controllers
                 if (data.Count() > 0)
                 {
                     //add session
-                    Session["FullName"] = data.FirstOrDefault().uFirstname + " " + data.FirstOrDefault().uLastname;
+                    Session["FullName"] = data.FirstOrDefault().uFirstname;
                     Session["Phone"] = data.FirstOrDefault().uPhone;
                     Session["Address"] = data.FirstOrDefault().uAddress;
                     Session["ID"] = data.FirstOrDefault().uID;
@@ -194,6 +190,11 @@ namespace LoginandR.Controllers
             return byte2String;
         }
 
+        /// <summary>
+        /// Action used to return a list of product view
+        /// </summary>
+        /// <param name="page">page number</param>
+        /// <returns>a list of product view</returns>
         public ActionResult Product(int? page)
         {            
             var data = (from s in _db.Products select s);
@@ -218,6 +219,19 @@ namespace LoginandR.Controllers
                 return HttpNotFound();
             }
             return View(dataProduct.ToList());
-        }        
+        }
+
+        /// <summary>
+        /// Function used to restore unneccessary or unused resources
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            // need to alway test if disposing pass else reallocations could occur during Finalize pass
+            // also good practice to test resource was created
+            if (disposing && _db != null)
+                _db.Dispose();
+            base.Dispose(disposing);
+        }
     }
 }

@@ -13,8 +13,14 @@ using LoginandR.Models;
 
 namespace LoginandR.Controllers
 {
+    /// <summary>
+    /// Controller for supplier
+    /// </summary>
     public class SupplierController : Controller
     {
+        /// <summary>
+        /// Variable used for activities on DB_Entities
+        /// </summary>
         private DB_Entities _db = new DB_Entities();
 
         /// <summary>
@@ -34,7 +40,8 @@ namespace LoginandR.Controllers
                     return RedirectToAction("Login", "Supplier");
                 }
             }
-            return View();
+            int tempID = Convert.ToInt32(Session["ID"]);
+            return View(_db.Feedbacks.Where(x => x.supID == tempID).ToList());
         }
 
         /// <summary>
@@ -281,7 +288,12 @@ namespace LoginandR.Controllers
             return View(supplier);
         }
 
-        // GET: Supplier/Edit/5
+
+        /// <summary>
+        /// Action used to return a view for changing avatar
+        /// </summary>
+        /// <param name="id">supplier id</param>
+        /// <returns>a view</returns>
         public ActionResult ChangeAvatar(int? id)
         {
             if (Session["Role"] != null)
@@ -305,6 +317,11 @@ namespace LoginandR.Controllers
             return View(supplier);
         }
 
+        /// <summary>
+        /// After change avatar, send datas back to this action for processing
+        /// </summary>
+        /// <param name="supplier">supplier object</param>
+        /// <returns>save changes after changing, return to supplier profile action</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChangeAvatar(Supplier supplier)
@@ -343,6 +360,10 @@ namespace LoginandR.Controllers
             _supplier.ImageFile.SaveAs(fileName); // save file as above path
         }
 
+        /// <summary>
+        /// Action used to return a view of product list match tempid
+        /// </summary>
+        /// <returns>a view</returns>
         public ActionResult ProductManagement()
         {
             if (Session["Role"] == null)
@@ -360,6 +381,10 @@ namespace LoginandR.Controllers
             return View(_db.Products.Where(x => x.supID == tempID).ToList());
         }
 
+        /// <summary>
+        /// Action used to return a view of user bill list
+        /// </summary>
+        /// <returns>a view</returns>
         public ActionResult UserBill()
         {
             if (Session["Role"] == null)
@@ -378,6 +403,11 @@ namespace LoginandR.Controllers
             return View(listTemp.GroupBy(x => x.Bill.uID).Select(g => g.First()).ToList());
         }
 
+        /// <summary>
+        /// Action used to return a view of bill management
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns>a view</returns>
         public ActionResult BillManagement(int? id)
         {
             if (Session["Role"] == null)
@@ -395,9 +425,209 @@ namespace LoginandR.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var checkID = _db.Users.Find(id);
+            if (checkID == null)
+            {
+                return HttpNotFound();
+            }
             int tempID = Convert.ToInt32(Session["ID"]);
             var listTemp = _db.BillDetails.Where(x => x.Products.Supplier.supID == tempID).ToList();
             return View(listTemp.GroupBy(x => x.bID).Select(g => g.First()).Where(y => y.Bill.uID == id).ToList());
+        }
+
+        /// <summary>
+        /// Action used to return bill detail based on bill detail id
+        /// </summary>
+        /// <param name="id">bill detail id</param>
+        /// <returns>bill detail</returns>
+        public ActionResult BillDetail(int? id)
+        {
+            if (Session["Role"] == null)
+            {
+                return RedirectToAction("Login", "Supplier");
+            }
+            else
+            {
+                if (Session["Role"].ToString() != "supplier")
+                {
+                    return RedirectToAction("Login", "Supplier");
+                }
+            }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            IEnumerable<BillDetail> billDe = _db.BillDetails.Where(x => x.bID == id).ToList();
+            if (billDe == null)
+            {
+                return HttpNotFound();
+            }
+            return View(billDe);
+        }
+
+        /// <summary>
+        /// Action used to return a create view
+        /// </summary>
+        /// <returns>a view</returns>
+        public ActionResult Create()
+        {
+            if (Session["Role"] == null)
+            {
+                return RedirectToAction("Login", "Supplier");
+            }
+            else
+            {
+                if (Session["Role"].ToString() != "supplier")
+                {
+                    return RedirectToAction("Login", "Supplier");
+                }
+            }
+            var list = new List<SelectListItem>
+            {
+                 new SelectListItem{ Text="Food", Value = "1", Selected = true },
+                 new SelectListItem{ Text="Beverage", Value = "2" },
+            };
+            ViewData["foorBarList"] = list;
+            return View();
+        }
+
+        /// <summary>
+        /// After create product, send values back to this action to process
+        /// </summary>
+        /// <param name="product">product object</param>
+        /// <returns>If successfully add return productmanagement page, else return view</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Product product)
+        {
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                this._db.Products.Add(product);
+                this._db.SaveChanges();
+                return RedirectToAction("ProductManagement", "Supplier");
+            }
+
+            return View(product);
+        }
+
+        /// <summary>
+        /// Action used to return an update product view
+        /// </summary>
+        /// <param name="id">product id</param>
+        /// <returns>a view</returns>
+        public ActionResult UpdateProduct(int? id)
+        {
+            if (Session["Role"] == null)
+            {
+                return RedirectToAction("Login", "Supplier");
+            }
+            else
+            {
+                if (Session["Role"].ToString() != "supplier")
+                {
+                    return RedirectToAction("Login", "Supplier");
+                }
+            }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = _db.Products.Find(id);
+            TempData["img"] = product.proImg;
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
+
+        /// <summary>
+        /// After update product, send values back to this action to process
+        /// </summary>
+        /// <param name="product">product object</param>
+        /// <returns>If successfully update product return product management page, else return view</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateProduct(Product product)
+        {
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                if (product.proImg == null || product.proImg == "")
+                {
+                    product.proImg = TempData["img"].ToString();
+                }
+                this._db.Entry(product).State = EntityState.Modified;
+                this._db.SaveChanges();
+                return RedirectToAction("ProductManagement", "Supplier");
+            }
+            return View(product);
+        }
+
+        /// <summary>
+        /// Action used to return a delete product view
+        /// </summary>
+        /// <param name="id">product id</param>
+        /// <returns>a view</returns>
+        public ActionResult DeleteProduct(int? id)
+        {
+            if (Session["Role"] == null)
+            {
+                return RedirectToAction("Login", "Supplier");
+            }
+            else
+            {
+                if (Session["Role"].ToString() != "supplier")
+                {
+                    return RedirectToAction("Login", "Supplier");
+                }
+            }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = _db.Products.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
+
+        /// <summary>
+        /// After confirm delete, find id match product id, change pro status to false 
+        /// </summary>
+        /// <param name="id">product id</param>
+        /// <returns>product management page</returns>
+        [HttpPost, ActionName("DeleteProduct")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteProductConfirmed(int? id)
+        {
+            Product product = _db.Products.Find(id);
+            product.proStatus = false;
+            /*_db.Products.Remove(product);*/
+            this._db.SaveChanges();
+            return RedirectToAction("ProductManagement", "Supplier");
+        }
+
+        /// <summary>
+        /// Function used to restore unneccessary or unused resources
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            // need to alway test if disposing pass else reallocations could occur during Finalize pass
+            // also good practice to test resource was created
+            if (disposing && _db != null)
+                _db.Dispose();
+            base.Dispose(disposing);
         }
     }
 }
