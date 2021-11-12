@@ -87,7 +87,7 @@ namespace LoginandR.Controllers
                 return Redirect(strURL);
             }
             Cart itemGH = new Cart(proID);
-            if (sp.quantity < itemGH.cartQuantity)
+            if (sp.quantity < itemGH.cartQuantity+1)
             {
                 sp.quantity = itemGH.cartQuantity;
                 TempData["outQuan"] = "We are sorry, " + sp.proName + " has only " + itemGH.cartQuantity + " left. Please choose other item.";
