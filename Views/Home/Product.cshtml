@@ -2,74 +2,98 @@
 @{ ViewBag.Title = "Product";
     Layout = "~/Views/Shared/_LayoutPage3.cshtml"; }
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('.badge').fadeOut('slow')
+            }, 4000);
+        });
+    </script>
+}
 
-<div style="padding-top:300px; padding-bottom: 150px!important;" class="container pb-5 mb-sm-1">
+<div style="padding-top:150px; padding-bottom: 150px!important;" class="container pb-5 mb-sm-1">
+    <center>
+        <h1 style="font-weight: 600; font-size: 40px; padding-bottom: 2em;">MENU</h1>
+        @if (TempData["outQuan"] != null)
+        {
+            <span class="badge badge-danger btn-lg btn-block" style="background-color: #dc3545 !important; margin-bottom: 100px">@TempData["outQuan"]</span>
+        }
+    </center>
     <div class="row">
         <!-- Categories grid-->
         @foreach (var item in Model)
         {<!-- Category-->
-            <div class="col-md-4 col-sm-6">
-                <div class="card border-0 mb-grid-gutter">
-                    <a class="card-img-tiles" href="@Url.Action("Details", new { id = @item.proID })">
-                        <div class="main-img"><img src="~/Assets/img/@item.proImg" style="width:425px; height:300px;" alt="image"></div>
-                    </a>
-                    <div class="card-body border mt-n1 py-4 text-center">
-                        <a href="@Url.Action("Details", new { id = @item.proID })">
-                            <h2 class="h5 mb-1">@item.proName</h2>
+                <div class="col-md-4 col-sm-6" style="padding: 50px;">
+                    <div class="card border-0 mb-grid-gutter">
+                        <a class="card-img-tiles" href="@Url.Action("Details", new { id = @item.proID })">
+                            <div class="main-img"><img src="~/Assets/img/@item.proImg" style="width:425px; height:300px;" alt="image"></div>
                         </a>
-                        @{
-                            var temp = item.proPrice - item.proPrice * item.discount / 100;
-                            if (item.discount == 0)
-                            {
-                                <span class="d-block mb-3 font-size-xs text-muted"><strong>Price:</strong> <span class="font-weight-semibold">@item.proPrice.ToString("#,##") VND</span></span>
-                                <span class="d-block mb-3 font-size-xs text-muted"><s><strong>Discount</strong></s></span>
-                            }
-                            else
-                            {
-                                <span class="d-block mb-3 font-size-xs text-muted"><strong>Price:</strong> <span class="font-weight-semibold"> @temp.ToString("#,##") VND <s>(@item.proPrice.ToString("#,##"))</s></span></span>
-                                <span class="d-block mb-3 font-size-xs text-muted"><strong>Discount:</strong> <span class="font-weight-semibold">@item.discount %</span></span>
+                        <div class="card-body border mt-n1 py-4 text-center">
+                            <a href="@Url.Action("Details", new { id = @item.proID })">
+                                <h2 class="h5 mb-1">@item.proName</h2>
+                            </a>
+                            @{
+                                var temp = item.proPrice - item.proPrice * item.discount / 100;
+                                if (item.discount == 0)
+                                {
+                                    <span class="d-block mb-3 font-size-xs text-muted"><strong>Price:</strong> <span class="font-weight-semibold">@item.proPrice.ToString("#,##") VND</span></span>
+                                    <span class="d-block mb-3 font-size-xs text-muted"><s><strong>Discount</strong></s></span>
+                                }
+                                else
+                                {
+                                    <span class="d-block mb-3 font-size-xs text-muted"><strong>Price:</strong> <span class="font-weight-semibold"> @temp.ToString("#,##") VND <s>(@item.proPrice.ToString("#,##"))</s></span></span>
+                                    <span class="d-block mb-3 font-size-xs text-muted"><strong>Discount:</strong> <span class="font-weight-semibold">@item.discount %</span></span>
 
+                                }
                             }
-                        }
 
-                        @if (Session["Role"] == null || Session["Role"].ToString() == "user")
-                        {
-                            <a class="btn btn-pill btn-outline-dark btn-lg" @if (Session["Role"] == null) { <text> onclick="return confirm('You must login to do this action. Will you?');" </text> } href="@Url.Action("AddCart","Cart", new { @proID=item.proID, @strURL = Request.Url.ToString()})">Add to Cart</a>
-                        }
+                            @if (Session["Role"] == null || Session["Role"].ToString() == "user")
+                            {
+                                if (item.quantity != 0)
+                                {
+                                    <a class="btn btn-pill btn-outline-dark btn-lg" @if (Session["Role"] == null) { <text> onclick="return confirm('You must login to do this action. Will you?');" </text> } href="@Url.Action("AddCart","Cart", new { @proID=item.proID, @strURL = Request.Url.ToString()})">Add to Cart</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-pill btn-outline-dark btn-lg disabled">Out Of Stock</a>
+                                }
+                            }
+                        </div>
+
                     </div>
 
                 </div>
-
-            </div>}
+        }
 
     </div>
     <br />
     <div class="row text-center" style="border:1px">
-        <ul style="padding-left:50%;" class="pagination">
+        <ul style="padding-left:43%;" class="pagination">
             @{ int numberPage = ViewBag.numberPage;
                 int pageCurrent = ViewBag.pageCurrent;
                 if (pageCurrent > 1)
                 {
                     int prePage = pageCurrent - 1;
-                    <li style="border:1px;" class="active"><a href="?page=@prePage">Pre</a></li>
+                    <li style="margin-right: 5px;"><a href="?page=@prePage">Pre</a></li>
                 }
                 int i;
                 for (i = 1; i <= numberPage; i++)
                 {
                     if (i == pageCurrent)
                     {
-                        <li style="border:1px;" class="active"><a href="?page=@i">@i</a></li>
+                        <li style="margin: 0 5px;" class="active"><a href="?page=@i">@i</a></li>
                     }
                     else
                     {
-                        <li style="border:1px;"><a href="?page=@i">@i</a></li>
+                        <li style="margin: 0 5px;"><a href="?page=@i">@i</a></li>
                     }
                 }
-                if (pageCurrent > 1 && pageCurrent < numberPage)
+                if (pageCurrent >= 1 && pageCurrent < numberPage)
                 {
                     int nextPage = pageCurrent + 1;
-                    <li style="border:1px;" class="active"><a href="?page=@nextPage">Next</a></li>
- } }
+                    <li style="margin-left: 5px;"><a href="?page=@nextPage">Next</a></li>
+                } }
         </ul>
     </div>
 

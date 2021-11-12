@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<LoginandR.Models.Supplier>
 
 @{
-    ViewBag.Title = "SupplierManagement";
+    ViewBag.Title = "Admin - Supplier Management";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>SupplierManagement</h2>
+<h2>Supplier Management</h2>
 
 
 <table class="table table-bordered" id="myTable">
@@ -59,9 +59,9 @@
                         @Html.DisplayFor(modelItem => item.supDescription)
                     </td>
                     <td>
-                        @Html.ActionLink("Details", "DetailsUser", new { id = item.supID }, new { @class = "btn btn-info" })                        
+                        @Html.ActionLink("Details", "DetailsSupplier", new { id = item.supID }, new { @class = "btn btn-info" })
                     </td>
-                    <td>                        
+                    <td>
                         @Html.ActionLink("Delete", "DeleteSupplier", new { id = item.supID }, new { @class = "btn btn-danger" })
                     </td>
                 </tr>

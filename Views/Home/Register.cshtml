@@ -5,7 +5,7 @@
     <script>
         setTimeout(function () {
             $('.badge').fadeOut('slow');
-        }, 3000);
+        }, 9000);
     </script>
     }
 <center>
@@ -19,7 +19,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h2>Register Form</h2>
+                        <h2>User Register</h2>
 
                     </div>
 
@@ -110,8 +110,8 @@
 
 
                         </div>
-                        <div class="form-group">
-                            @Html.TextBoxFor(m => m.uCreditCard, "", new { @class = "form-control", @placeholder = "Credit Card Number" })
+                        <div class="form-group">                            
+                            @Html.TextBoxFor(m => m.uCreditCard, "", new { @class = "form-control", @placeholder = "Credit Card Number (Optional)" })
                             @Html.ValidationMessageFor(m => m.uCreditCard, "", new { @class = "badge badge-danger" })
                         </div>
                         <div class="form-group row" style="margin-left:5px;">

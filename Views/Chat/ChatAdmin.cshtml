@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "ChatAdmin";
+    Layout = "~/Views/Shared/_LayoutPage3.cshtml";
+}
+
+<div class="footer" style="padding-top: 260px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class=" col-md-12">
+
+                <h2 style="padding-left: 500px; padding-bottom: 50px;">CHAT WITH US<strong class="white"> NOW!</strong></h2>
+                <h1 style="padding-left: 20px;">Hello! Admin </h1>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+
+                <div class="container" id="divChat">
+                    <div class="row">
+
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <textarea class="textarea" placeholder="Message" type="text" id="txtMessage" name="Message"></textarea>
+                        </div>
+
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <button class="btn btn-success" id="btnSend">Send</button>
+                        </div>
+
+                        <div class="container">
+
+                            <ul id="contentMsg" style="font-size: 20px">
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="img-box">
+                    <figure><img src="~/Content/images/img.jpg" alt="img" /></figure>
+                </div>
+            </div>
+        </div>
+</div>
+    </div>
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            //connection chat admin
+            $('#divChat').show();
+            var chat = $.connection.chat;
+            console.log(chat);
+            loadClient(chat);
+            $.connection.hub.start().done(function () {
+                $("#btnLogin").click(function () {
+                    chat.server.connect(name);
+                    $('#welcome').html("Xin chao : " + name);
+                    show();
+                });
+                $('#btnSend').click(function () {
+                    var msg = $('#txtMessage').val();
+                    var name = "Admin";
+                    chat.server.message(name, msg);
+                    $('#txtMessage').val('').focus();
+                });
+            });
+
+        });
+        //load clienr message
+        function loadClient(chat) {
+
+            chat.client.message = function (name, msg) {
+                $('#contentMsg').append("<li><strong>" + name + "</strong>: " + msg + "</li>");
+            }
+            chat.client.connect = function (name) {
+                $('#hName').val(name);
+            }
+        }
+
+    </script>
+}
+

@@ -7,13 +7,22 @@ using System.Web;
 
 namespace LoginandR.Models
 {
+    /// <summary>
+    /// TypeP class
+    /// </summary>
     public class TypeP
     {
+        /// <summary>
+        /// type id
+        /// </summary>
         [Key, Column(Order = 1)]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        [Required]
         [Display(Name = "Type ID")]
         public int tID { get; set; }
+
+        /// <summary>
+        /// type name
+        /// </summary>
         [Display(Name = "Type Name")]
         public string tName { get; set; }
     }

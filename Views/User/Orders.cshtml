@@ -6,12 +6,15 @@
 
 <style>
     #dataTable_wrapper {
-        padding-top: 300px;
-        padding-bottom: 320px;
+        padding-top: 100px;
+        padding-bottom: 560px;
     }
 </style>
 
-<h2>Orders</h2>
+<center>
+    <h1 style=" padding-top: 200px; font-weight: 600; font-size: 40px;">MY ORDERS</h1>
+</center>
+
 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
     <thead>
         <tr>
@@ -35,7 +38,7 @@
                     @Html.DisplayFor(modelItem => item.bDate)
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.bID }, new { @class = "btn btn-info btn-lg" })
+                    @Html.ActionLink("Details", "OrderDetail", new { id = item.bID }, new { @class = "btn btn-primary btn-lg" })
                 </td>
             </tr>
 

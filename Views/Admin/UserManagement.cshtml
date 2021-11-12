@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
     
+<h2>User Management</h2>
+
     <table class="table table-bordered" id="myTable">
         <thead>
             <tr>
@@ -70,9 +72,6 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "EditUser", new { id = item.uID }, new { @class = "btn btn-warning" })                                        
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.uID }, new { @class = "btn btn-info" })
                 </td>
                 <td>
                     @Html.ActionLink("Delete", "DeleteUser", new { id = item.uID }, new { @class = "btn btn-danger" })

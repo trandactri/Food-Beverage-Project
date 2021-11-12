@@ -11,18 +11,7 @@
         }, 3000);
     </script>
     }
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title></title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet" />
-</head>
-<body>
 
-    <i class='fab fa-google-plus-g'></i>
     <h2>Welcome to login SWP Food</h2>
     <div class="container" id="container">
         <div class="form-container sign-up-container">
@@ -55,6 +44,11 @@
                 {
                     <span class="badge badge-success" id="successView">@TempData["success"]</span>
                 }
+
+                if (TempData["Message"] != null)
+                {
+                    <span class="badge badge-success" id="successView">@TempData["Message"]</span>
+                }
                 <div class="form-group">
                     @Html.TextBoxFor(m => m.uUsername, "", new { @class = "form-control", @placeholder = "Username" })
                     @Html.ValidationMessageFor(m => m.uUsername, "", new { @class = "badge badge-danger" })
@@ -67,13 +61,8 @@
                 {
                     <span class="badge badge-danger" id="errorView">@ViewBag.error</span>
                 }
-                <a href="#">Forgot your password?</a>
+                <a href="@Url.Action("ForgotPassword","User")">Forgot your password?</a>
                 <input type="submit" name="submit" class="btn btn-primary" value="Login" />
-                <button href="#" class="social btn-block">
-                    Login with Google
-                    <i class="fab fa-google-plus-g">
-                    </i>
-                </button>
             }
 
         </div>
@@ -87,7 +76,7 @@
                 <div class="overlay-panel overlay-right">
                     <h1>Hello, Friend!</h1>
                     <p>Enter your personal information and start your dining journey with us</p>
-                    <button onclick="location.href='https://localhost:44307/Home/Register';" class="ghost">Register</button>
+                    <button onclick="location.href='@Url.Action("Register","Home")'" class="ghost">Register</button>
                 </div>
             </div>
         </div>
@@ -101,10 +90,6 @@
             <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
         </p>*@
     </footer>
-
-</body>
-</html>
-
 
 
 <style>

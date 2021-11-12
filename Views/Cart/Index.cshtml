@@ -1,5 +1,5 @@
 ﻿@model List<LoginandR.Models.Cart>
-@{ ViewBag.Title = "Index";
+@{ ViewBag.Title = "Cart";
     Layout = "~/Views/Shared/_LayoutPage3.cshtml"; }
 
 @section Scripts{
@@ -36,7 +36,7 @@ else
 {
 
 
-    <div style="padding-top:400px; margin-bottom: 410px!important" class="container pb-5 mb-sm-1">
+    <div style="padding-top:200px; margin-bottom: 310px!important" class="container pb-5 mb-sm-1">
         <center>
             @if (TempData["errorQuan"] != null)
             {
@@ -46,9 +46,10 @@ else
             {
                 <span class="badge badge-danger btn-lg btn-block" style="background-color: #dc3545 !important; margin-bottom: 100px">@TempData["outStock"]</span>
             }
+        <h1 style="font-weight: 600; font-size: 40px;">MY CART</h1>
         </center>
-        <div class="row">
-            <table class="table" style="padding-top:500px;">
+        <div class="row" style="padding-top:100px;">
+            <table class="table" >
                 <thead>
                     <tr>
                         <td>Product Name</td>
@@ -82,10 +83,10 @@ else
                 @using (Html.BeginForm("Order", "Cart"))
                 {
                     <div style="text-align:right" class="row">
-                        <div class="col-md-8" style="text-align: right; padding-right: 7.7em;">
+                        <div class="col-md-8" style="text-align: right; padding-right: 4.3em;">
                             <strong>Summary</strong>
                         </div>
-                        <div class="col-md-2" style="text-align: center; padding-right: 4em;">
+                        <div class="col-md-2" style="text-align: center;">
                             @ViewBag.total.ToString() VND
                         </div>
                         <div class="col-md-2">

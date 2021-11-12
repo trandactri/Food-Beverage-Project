@@ -13,9 +13,6 @@
                 @Html.DisplayNameFor(model => model.User.uUsername)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Supplier.supName)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.fMessage)
             </th>
             <th>
@@ -36,9 +33,6 @@
                         @Html.DisplayFor(modelItem => item.User.uUsername)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Supplier.supName)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.fMessage)
                     </td>
                     <td>
@@ -51,7 +45,7 @@
                         @Html.ActionLink("Details", "Details", new { id = item.fID }, new { @class = "btn btn-info" })                         
                     </td>
                     <td>
-                        @Html.ActionLink("Delete", "DeleteUser", new { id = item.fID }, new { @class = "btn btn-danger" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.fID }, new { @class = "btn btn-danger", @onclick = "return confirm('Do you really want to delete?')" })
                     </td>
                 </tr>
             }

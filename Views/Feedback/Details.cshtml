@@ -1,0 +1,54 @@
+﻿@model LoginandR.Models.Feedback
+
+@{ ViewBag.Title = "Feedback";
+    Layout = "~/Views/Shared/_FeedbackLayout.cshtml";}
+
+@{
+
+    <div class="container-contact100">
+
+        <div class="wrap-contact100">
+            <div class="contact100-form">
+                <span class="contact100-form-title">
+                    You got a new feedback from
+                    <strong>@Model.User.uUsername</strong>
+                </span>
+                <div class="container-contact100-form-btn">
+                    Sent at @Html.DisplayFor(m => m.fDate, new { @class = "control-label col-md-2", @readonly = "readonly" })
+                </div>
+                
+
+                <div class="wrap-input100 validate-input">
+                    @Html.DisplayFor(m => m.fMessage, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+
+                <div class="container-contact100-form-btn row">
+                    <a href="@Url.Action("Index")" class="contact100-form-btn mr-4">
+                        <span>
+                            <i class="fa fa-home m-r-6" aria-hidden="true"></i>
+                            Back to List
+                        </span>
+                    </a>
+                    <a href="@Url.Action("Delete",new { id = @Model.fID })" class="btn btn-danger" onclick="return confirm('Do you really want to delete?')">
+                        <span>
+                            <i class="fa fa-times m-r-6" aria-hidden="true"></i>
+                            Delete
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+@section Scripts{
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');</script>
+}
+

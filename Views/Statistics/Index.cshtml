@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Best Sellers Statistics";
+    Layout = "~/Views/Shared/_SupplierLayout.cshtml";
+}
+@section Scripts{
+    @*reference of Google charts in javascript*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        //Call function after Google Chart is loaded, it is required, otherwise you may get error
+        google.charts.setOnLoadCallback(DrawonLoad);
+
+
+        function DrawonLoad() {
+            $(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Statistics/GetPiechartJSON',
+                    success: function (chartsdata) {
+                        // Callback that creates and populates a data table,
+                        // instantiates the pie chart, passes in the data and
+                        // draws it.
+
+                        //get JSONList from Object
+                        var Data = chartsdata.JSONList;
+                        var data = new google.visualization.DataTable();
+
+                        data.addColumn('string', 'Product');
+                        data.addColumn('number', 'Quantity');
+
+                        //Loop through each list data
+                        for (var i = 0; i < Data.length; i++) {
+                            data.addRow([Data[i].Product, Data[i].Quantity]);
+                        }
+
+                        // Instantiate and draw our chart, passing in some options
+                        var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
+
+                        //Draw pie chart command with data and chart options
+                        chart.draw(data,
+                            {
+                                title: "Best Sellers Statistics Of " + '@Session["Fullname"]',
+                                position: "top",
+                                fontsize: "56px",
+
+                                is3D: true // this makes pie chart 3D
+                            });
+
+                    },
+                    error: function () {
+                        alert("Error loading data! Please try again.");
+                    }
+                });
+            });
+
+        }
+    </script>
+
+}
+    <center>
+        <div id="chartdiv" style="width: 1200px; height: 750px;">
+        </div>
+    </center>
