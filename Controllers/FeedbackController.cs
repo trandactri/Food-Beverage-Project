@@ -31,7 +31,7 @@ namespace LoginandR.Controllers
             if (Session["Role"].ToString() != "supplier")
                 return RedirectToAction("Create");
                 int tempID = Convert.ToInt32(Session["ID"]); 
-                return View(_db.Feedbacks.Where(x => x.supID == tempID).ToList());   
+                return View(_db.Feedbacks.Where(x => x.supID == tempID && x.Supplier.supStatus).ToList());   
         }
 
         /// <summary>

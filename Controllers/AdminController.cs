@@ -436,7 +436,7 @@ namespace LoginandR.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Supplier supplier = _db.Suppliers.Find(id);
-            if (supplier == null)
+            if (supplier == null && !supplier.supStatus)
             {
                 return HttpNotFound();
             }

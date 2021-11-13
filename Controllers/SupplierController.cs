@@ -457,7 +457,8 @@ namespace LoginandR.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IEnumerable<BillDetail> billDe = _db.BillDetails.Where(x => x.bID == id).ToList();
+            int tempID = Convert.ToInt32(Session["ID"]);
+            IEnumerable<BillDetail> billDe = _db.BillDetails.Where(x => x.bID == id && x.Products.supID == tempID).ToList();
             if (billDe == null)
             {
                 return HttpNotFound();

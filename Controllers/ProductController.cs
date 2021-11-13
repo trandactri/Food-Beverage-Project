@@ -28,7 +28,7 @@ namespace LoginandR.Controllers
         public ActionResult Index()
         {
             IEnumerable<Product> productList = _db.Products;
-            var product = productList.Select(p => p).Where(p => p.proStatus == true);
+            var product = productList.Select(p => p).Where(p => p.proStatus && p.Supplier.supStatus);
             return View(product.ToList());
         }
 
@@ -44,7 +44,7 @@ namespace LoginandR.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = _db.Products.Find(id);
-            if (product == null)
+            if (product == null || !product.Supplier.supStatus)
             {
                 return HttpNotFound();
             }

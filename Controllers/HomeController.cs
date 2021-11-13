@@ -197,7 +197,7 @@ namespace LoginandR.Controllers
         /// <returns>a list of product view</returns>
         public ActionResult Product(int? page)
         {            
-            var data = (from s in _db.Products where s.proStatus select s);
+            var data = (from s in _db.Products where s.proStatus && s.Supplier.supStatus select s);
             if (page > 0)
             {
                 page = page;
@@ -213,7 +213,7 @@ namespace LoginandR.Controllers
             ViewBag.pageCurrent = page;
             float numberPage = (float)totalProduct / limit;
             ViewBag.numberPage = (int)Math.Ceiling(numberPage);
-            var dataProduct = data.OrderByDescending(s => s.proID).Skip(start).Take(limit);          
+            var dataProduct = data.OrderByDescending(s => s.proID).Where(s => s.proStatus && s.Supplier.supStatus).Skip(start).Take(limit);          
             if (page > ViewBag.numberPage)
             {
                 return HttpNotFound();
